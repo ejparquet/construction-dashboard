@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ironline Clients</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<link rel="stylesheet" href="assets/theme-glass.css">
+<script>/* pick the visual style before first paint: ?style=glass|office, else the saved choice, else glass */
+  (() => { let s = new URLSearchParams(location.search).get('style'); try { s = s || localStorage.getItem('ironline-style'); } catch {} document.documentElement.dataset.style = s === 'office' ? 'office' : 'glass'; })();
+</script>
+</head>
+<body>
+<div class="shell">
+  <aside class="side">
+    <div>
+      <div class="flex items-center gap-3">
+        <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true">
+          <rect width="34" height="34" rx="8" fill="var(--brand)"/>
+          <path d="M8 25V12l9-5 9 5v13" fill="none" stroke="#fff" stroke-width="2.5" stroke-linejoin="round"/>
+          <path d="M13 25v-7h8v7" fill="none" stroke="#fff" stroke-width="2.5"/>
+        </svg>
+        <div>
+          <div class="display" style="font-size:20px;font-weight:800">Ironline</div>
+          <div class="mono" style="font-size:10px;letter-spacing:.12em;opacity:.6">BUILDERS · SITE OFFICE</div>
+        </div>
+      </div>
+      <div class="hazard mt-5 hidden lg:block"></div>
+    </div>
+    <nav class="nav" aria-label="Primary">
+      <a href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>Overview</a>
+      <a href="index.html#projects"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6"/></svg>Projects</a>
+      <a href="clients.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5a6.5 6.5 0 0 1 3.5 5.5"/></svg>Clients</a>
+      <a href="index.html#budget"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Budgets</a>
+      <a href="cost-codes.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Cost codes</a>
+      <a href="index.html#schedule"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Crews &amp; schedule</a>
+      <a href="index.html#docs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg>Documents</a>
+    </nav>
+    <div class="hidden lg:flex mt-auto items-center gap-3 pt-4" style="border-top:1px solid color-mix(in oklab, var(--side-text) 12%, transparent)">
+      <img src="https://placehold.co/64x64/2a2722/f6f3ec?text=MR" width="32" height="32" alt="" class="rounded-full">
+      <div style="line-height:1.3"><div style="font-weight:600;font-size:13px">Maria Reyes</div><div style="font-size:12px;opacity:.6">Operations Director</div></div>
+    </div>
+    <button class="btn btn-ghost lg:hidden" aria-label="Open menu" style="background:transparent;color:var(--side-text);border-color:color-mix(in oklab, var(--side-text) 20%, transparent)">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </aside>
+
+  <main>
+    <header class="reveal flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+      <div>
+        <div class="eyebrow">Directory · owners &amp; their projects</div>
+        <h1 class="display" style="font-size:clamp(36px,5vw,56px);font-weight:800;letter-spacing:-0.03em;margin:4px 0 0">Clients</h1>
+        <p id="savedNote" style="margin:var(--s2) 0 0;font-size:12px;color:var(--ink-3)"></p>
+      </div>
+      <div class="flex flex-wrap items-center gap-3">
+        <div class="w-full sm:w-64"><input class="search" type="search" id="q" placeholder="Search clients, contacts, projects…" aria-label="Search clients"></div>
+        <button class="btn btn-ghost" type="button" id="resetBtn">Reset demo data</button>
+        <button class="btn btn-primary" type="button" id="addBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg>Add client
+        </button>
+      </div>
+    </header>
+
+    <section class="clist" id="clist" aria-label="Clients"></section>
+
+    <footer class="mono" style="font-size:11px;color:var(--ink-3);padding:var(--s2) 0 var(--s4)">Changes are saved in this browser only (mockup). Connect a database before multiple people use it.</footer>
+  </main>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="fTitle" aria-hidden="true" style="width:min(720px,100vw)"></aside>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="assets/seed.js"></script>
+<script src="assets/shared.js"></script>
+<script>
+const PHASE_OPTS = ['Sitework', 'Foundations', 'Structure', 'Framing', 'Envelope', 'Interiors', 'Closeout'];
+const TAGS = ['Primary', "Owner's rep", 'Day-to-day', 'Site contact', 'Tenant', 'Billing', 'Other'];
+const SEED_PROJECTS = new Set(SEED.projects.map(p => p.id)), SEED_CLIENTS = new Set(SEED.clients.map(c => c.id));
+const initials = n => n.replace(/^(Dr\.|Chief|City of|The) /, '').split(/\s+/).map(w => w[0]).join('').slice(0, 2).toUpperCase();
+const projectsOf = cid => projects.filter(p => p.client === cid);
+// client avatar: their first project photo, else initials
+const clientPhoto = cid => { const p = projectsOf(cid).find(x => details[x.id] && details[x.id].photo); return p ? details[p.id].photo : ''; };
+const avatar = (c, size) => { const ph = clientPhoto(c.id);
+  return `<div class="avatar ${ph ? 'has-photo' : ''}" style="width:${size}px;height:${size}px;font-size:${Math.round(size / 3.1)}px;flex:none">${ph ? `<img src="${esc(ph)}" alt="">` : esc(initials(c.name))}</div>`; };
+
+/* dates are stored the way the dashboard shows them ("Mar 12, 2027") */
+const toISO = str => { if (/^\d{4}-\d{2}-\d{2}$/.test(str || '')) return str; const d = new Date(str); return isNaN(d) ? '' : `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; };
+const fromISO = iso => { if (!iso) return ''; const [y, m, d] = iso.split('-').map(Number); return new Date(y, m - 1, d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }); };
+const num = v => { const n = parseFloat(String(v).replace(/[^0-9.\-]/g, '')); return isNaN(n) ? null : n; };
+const commas = v => { const n = num(v); return n == null ? '' : Math.round(n).toLocaleString('en-US'); };
+
+/* ---------- List ---------- */
+let q = '';
+function renderList() {
+  const term = q.trim().toLowerCase();
+  const list = clients.filter(c => !term || [c.name, c.office, ...c.contacts.flatMap(x => [x.name, x.email, x.role]), ...projectsOf(c.id).flatMap(p => [p.id, p.name])].join(' ').toLowerCase().includes(term));
+  $('#clist').innerHTML = list.map(c => {
+    const ps = projectsOf(c.id), lead = c.contacts[0] || {}, total = ps.reduce((a, p) => a + p.budget, 0);
+    return `<article class="card ccard" data-view="${c.id}">
+      <div class="flex items-start gap-3">
+        ${avatar(c, 44)}
+        <div style="min-width:0;line-height:1.35;flex:1">
+          ${SEED_CLIENTS.has(c.id) ? '' : '<div class="new-badge">Added</div>'}
+          <h2 style="margin:0;font-size:16px;font-weight:600">${esc(c.name)}</h2>
+          <div style="font-size:12px;color:var(--ink-3)">${esc(c.office)}</div>
+        </div>
+        <button class="btn btn-ghost btn-sm" type="button" data-open="${c.id}" aria-haspopup="dialog" aria-label="View ${esc(c.name)}">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>View</button>
+      </div>
+      <div style="font-size:13px;line-height:1.5">
+        <div class="eyebrow" style="margin-bottom:2px">Primary contact</div>
+        <strong style="font-weight:600">${esc(lead.name || '—')}</strong>${lead.role ? ` · <span style="color:var(--ink-2)">${esc(lead.role)}</span>` : ''}
+        <div class="flex flex-wrap gap-x-4" style="color:var(--ink-2)">${lead.phone ? `<a class="link" href="${tel(lead.phone)}">${esc(lead.phone)}</a>` : ''}${lead.email ? `<a class="link" href="mailto:${esc(lead.email)}" style="overflow-wrap:anywhere">${esc(lead.email)}</a>` : ''}</div>
+      </div>
+      <div class="tags">${ps.map(p => `<a class="tag" href="index.html#projects"><i style="background:${p.c}"></i>${p.id} · ${esc(p.name)}</a>`).join('') || '<span style="font-size:12px;color:var(--ink-3)">No projects yet</span>'}</div>
+      <dl><div><dt>Projects</dt><dd>${ps.length}</dd></div><div><dt>Contract value</dt><dd>${money(total)}</dd></div></dl>
+    </article>`;
+  }).join('') || `<div class="card empty" style="grid-column:1/-1">No clients match “${esc(q)}”.</div>`;
+  $('#savedNote').textContent = DB.savedAt ? `${clients.length} clients · last saved ${new Date(DB.savedAt).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' })} in this browser` : `${clients.length} clients · showing demo data`;
+}
+$('#q').addEventListener('input', e => { q = e.target.value; renderList(); });
+$('#clist').addEventListener('click', e => {
+  if (e.target.closest('a')) return; // phone, email and project links keep working
+  const card = e.target.closest('[data-view]'); if (!card) return;
+  openView(card.dataset.view, card.querySelector('[data-open]'));
+});
+$('#addBtn').addEventListener('click', e => openEditor(null, null, e.currentTarget));
+$('#resetBtn').addEventListener('click', () => {
+  if (confirm('Reset to the demo data? Every client, project and document you added or edited in this browser will be removed.')) resetStore().finally(() => { location.href = 'clients.html'; });
+});
+
+/* ---------- Editor ---------- */
+const drawer = $('#drawer'), scrim = $('#scrim');
+let draft = null, dirty = false, lastTrigger = null;
+
+const blankContact = (tag = 'Primary') => ({ name: '', role: '', tag, phone: '', mobile: '', email: '' });
+const blankProject = () => ({ id: null, name: '', type: '', phase: 'Sitework', status: 'on', pct: 0, budget: null, spent: 0, forecast: null, pm: '', due: '',
+  d: { address: '', city: '', lat: null, lon: null, architect: '', contract: '', size: '', start: '', super: '', photo: '' } });
+
+/* ---------- View panel (read-only) ---------- */
+let viewing = null; // client id shown in the view panel; edit returns here on cancel/save
+function showPanel(trigger) {
+  if (!drawer.classList.contains('open')) lastTrigger = trigger || null;
+  drawer.classList.add('open'); scrim.classList.add('open');
+  drawer.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden';
+}
+function openView(cid, trigger) {
+  const c = C[cid]; if (!c) return;
+  viewing = cid; draft = null; dirty = false;
+  const ps = projectsOf(cid);
+  const t = ps.reduce((a, p) => ({ budget: a.budget + p.budget, spent: a.spent + p.spent, forecast: a.forecast + p.forecast }), { budget: 0, spent: 0, forecast: 0 });
+  drawer.innerHTML = `
+    <button class="x" type="button" aria-label="Close" style="background:var(--surface-2);color:var(--ink);border-color:var(--hair)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    <header class="dsec" style="padding-right:72px">
+      <div class="flex items-center gap-4">
+        ${avatar(c, 56)}
+        <div style="min-width:0;line-height:1.3">
+          <div class="eyebrow">Client · ${c.id}${SEED_CLIENTS.has(c.id) ? '' : ' · added'}</div>
+          <h2 id="fTitle" class="display" style="font-size:34px;font-weight:800;letter-spacing:-0.03em;margin:4px 0 0">${esc(c.name)}</h2>
+        </div>
+      </div>
+      <div class="flex flex-wrap items-center gap-3" style="margin-top:var(--s4)">
+        <button class="btn btn-primary" type="button" data-act="edit"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 1 1 3 3L7 19l-4 1 1-4z"/></svg>Edit client</button>
+        <span style="font-size:13px;color:var(--ink-2)">${esc(c.office)}</span>
+      </div>
+      <dl class="facts" style="grid-template-columns:repeat(4,minmax(0,1fr));margin-top:var(--s5)">
+        <div><dt>Projects</dt><dd class="num">${ps.length}</dd></div>
+        <div><dt>Contract value</dt><dd class="num">${money(t.budget)}</dd></div>
+        <div><dt>Cost to date</dt><dd class="num">${money(t.spent)}</dd></div>
+        <div><dt>Forecast variance</dt><dd class="num">${signed(t.forecast - t.budget)}</dd></div>
+      </dl>
+    </header>
+    <section class="dsec">
+      <h3>Contacts · ${c.contacts.length}</h3>
+      <div class="contacts">${c.contacts.map((x, i) => contactCard(x, i, c.name)).join('')}</div>
+    </section>
+    <section class="dsec" style="border-bottom:0">
+      <h3>Projects · ${ps.length}</h3>
+      ${ps.map(p => { const d = details[p.id] || {}; return `<article class="vproj">
+        <div class="photo" style="border-radius:10px;aspect-ratio:16/10"><img src="${esc(d.photo || PLACEHOLDER_PHOTO)}" alt="Site photo, ${esc(p.name)}"><span class="tint" style="background:${p.c}"></span><span class="fade bg-gradient-to-t from-black/60 to-transparent"></span>
+          <div class="over"><span class="tag"><i style="background:${p.c}"></i>${p.id}</span></div></div>
+        <div style="min-width:0">
+          <div class="flex items-start justify-between gap-2 flex-wrap"><strong style="font-weight:600;font-size:15px">${esc(p.name)}</strong>${chip(p.status)}</div>
+          <div style="font-size:12px;color:var(--ink-3);line-height:1.5">${esc([d.address, d.city].filter(Boolean).join(', '))}</div>
+          <div class="flex justify-between" style="font-size:12px;color:var(--ink-2);margin:var(--s2) 0 4px"><span>${esc(p.phase)}</span><span class="num">${p.pct}% · due ${esc(p.due || '—')}</span></div>
+          <div class="meter" style="height:6px"><span style="width:${p.pct}%;background:${p.c};transform:none"></span></div>
+          <div class="flex flex-wrap gap-x-4" style="font-size:12px;color:var(--ink-2);margin-top:var(--s2)"><span>Contract <b class="num" style="color:var(--ink);font-weight:600">${money(p.budget)}</b></span><span>Forecast <b class="num" style="color:var(--ink);font-weight:600">${money(p.forecast)}</b></span><span>PM <b style="color:var(--ink);font-weight:600">${esc(p.pm || '—')}</b></span></div>
+          <div class="flex flex-wrap gap-x-4" style="margin-top:var(--s2);font-size:13px"><a class="link" href="index.html?project=${p.id}">Open on dashboard →</a><button class="link" type="button" data-act="edit-project" data-pid="${p.id}">Edit project</button></div>
+        </div>
+      </article>`; }).join('') || '<p style="font-size:13px;color:var(--ink-3);margin:0">No projects yet. Use Edit client to add one.</p>'}
+    </section>`;
+  showPanel(trigger);
+  history.replaceState(null, '', `clients.html?view=${cid}`);
+  setTimeout(() => drawer.querySelector('[data-act="edit"]').focus({ preventScroll: true }), 60);
+}
+
+function openEditor(cid, focusProject, trigger) {
+  const c = cid ? C[cid] : null;
+  draft = c
+    ? { id: c.id, name: c.name, office: c.office, contacts: c.contacts.map(x => ({ ...x })),
+        projects: projectsOf(c.id).map(p => ({ ...p, d: { ...details[p.id] } })) }
+    : { id: null, name: '', office: '', contacts: [blankContact()], projects: [blankProject()] };
+  dirty = false;
+  renderForm(focusProject);
+  drawer.scrollTop = 0;
+  showPanel(trigger);
+  setTimeout(() => {
+    const target = focusProject && drawer.querySelector(`details[data-pid="${focusProject}"]`);
+    if (target) { target.scrollIntoView({ block: 'start' }); target.querySelector('input')?.focus({ preventScroll: true }); }
+    else drawer.querySelector('#f-name').focus({ preventScroll: true });
+  }, 60);
+}
+function closeEditor(force, toView = true) {
+  if (!force && dirty && !confirm('Discard unsaved changes?')) return;
+  dirty = false;
+  if (toView && draft && draft.id && viewing === draft.id && C[draft.id]) { openView(draft.id); drawer.scrollTop = 0; return; } // editing from the view: go back to it
+  viewing = null; draft = null;
+  drawer.classList.remove('open'); scrim.classList.remove('open');
+  drawer.setAttribute('aria-hidden', 'true'); document.body.style.overflow = '';
+  history.replaceState(null, '', 'clients.html');
+  lastTrigger?.focus({ preventScroll: true });
+}
+
+const field = (id, label, value, { req, type = 'text', hint, full, attrs = '', err = 'Required' } = {}) => `
+  <div class="field ${full ? 'full' : ''}"><label for="${id}">${label}${req ? ' <span class="req">*</span>' : ''}</label>
+    <input id="${id}" type="${type}" value="${esc(value)}" ${req ? 'required' : ''} ${attrs}>
+    ${hint ? `<span class="hint">${hint}</span>` : ''}<span class="err">${err}</span></div>`;
+const select = (id, label, value, opts) => `
+  <div class="field"><label for="${id}">${label}</label><select id="${id}">${opts.map(o => { const [v, t] = Array.isArray(o) ? o : [o, o]; return `<option value="${esc(v)}" ${v === value ? 'selected' : ''}>${esc(t)}</option>`; }).join('')}</select></div>`;
+const mapSrc = (lat, lon) => `https://www.openstreetmap.org/export/embed.html?bbox=${lon - .01},${lat - .006},${lon + .01},${lat + .006}&layer=mapnik&marker=${lat},${lon}`;
+
+function renderForm(openPid) {
+  const isNew = !draft.id;
+  drawer.innerHTML = `<form class="form" id="cform" novalidate>
+    <button class="x" type="button" aria-label="Close" style="background:var(--surface-2);color:var(--ink);border-color:var(--hair);z-index:4"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    <div class="form-head">
+      <div class="eyebrow">${isNew ? 'New client' : `Edit client · ${draft.id}`}</div>
+      <h2 id="fTitle" class="display" style="font-size:32px;font-weight:800;letter-spacing:-0.03em;margin:4px 0 0">${esc(draft.name) || 'Add a client'}</h2>
+      <p style="margin:var(--s1) 0 0;font-size:12px;color:var(--ink-3)">Fields marked <span style="color:var(--brand)">*</span> are required. Changes show up on the dashboard as soon as you save.</p>
+    </div>
+    <div class="form-body">
+      <section class="form-sec">
+        <h3>Company</h3>
+        <div class="fgrid">
+          ${field('f-name', 'Client / owner name', draft.name, { req: true, full: true, attrs: 'autocomplete="organization"' })}
+          ${field('f-office', 'Office address', draft.office, { req: true, full: true, attrs: 'autocomplete="street-address"', hint: 'Street, suite, city, state, ZIP' })}
+        </div>
+      </section>
+      <section class="form-sec">
+        <h3><span>Contacts · ${draft.contacts.length}</span><button class="btn btn-ghost btn-sm" type="button" data-act="add-contact">+ Add contact</button></h3>
+        ${draft.contacts.map((c, i) => `<div class="row-card" data-contact="${i}">
+          ${draft.contacts.length > 1 ? `<button class="btn btn-ghost btn-sm rm" type="button" data-act="rm-contact" data-i="${i}" aria-label="Remove contact ${i + 1}">Remove</button>` : ''}
+          <div class="eyebrow" style="margin-bottom:var(--s3)">Contact ${i + 1}</div>
+          <div class="fgrid">
+            ${field(`c-name-${i}`, 'Name', c.name, { req: true, attrs: 'autocomplete="off" data-k="name"' })}
+            ${field(`c-role-${i}`, 'Title / role', c.role, { attrs: 'data-k="role"' })}
+            <div class="field"><label for="c-tag-${i}">Role on project</label><select id="c-tag-${i}" data-k="tag">${TAGS.map(t => `<option ${t === c.tag ? 'selected' : ''}>${esc(t)}</option>`).join('')}</select></div>
+            ${field(`c-email-${i}`, 'Email', c.email, { req: true, type: 'email', attrs: 'data-k="email" autocomplete="off"', err: 'Enter a valid email' })}
+            ${field(`c-phone-${i}`, 'Office phone', c.phone, { type: 'tel', attrs: 'data-k="phone" placeholder="(503) 555-0100"', err: 'Enter a 10-digit phone number' })}
+            ${field(`c-mobile-${i}`, 'Mobile', c.mobile, { type: 'tel', attrs: 'data-k="mobile"', err: 'Enter a 10-digit phone number' })}
+          </div></div>`).join('')}
+      </section>
+      <section class="form-sec">
+        <h3><span>Projects · ${draft.projects.length}</span><button class="btn btn-ghost btn-sm" type="button" data-act="add-project">+ Add project</button></h3>
+        ${draft.projects.map((p, i) => projectBlock(p, i, openPid)).join('') || '<p style="font-size:13px;color:var(--ink-3);margin:0">No projects. Add one to put this client on the dashboard.</p>'}
+      </section>
+    </div>
+    <div class="form-foot">
+      ${!isNew && !SEED_CLIENTS.has(draft.id) ? '<button class="btn btn-danger" type="button" data-act="delete">Delete client</button>' : ''}
+      <span style="flex:1"></span>
+      <button class="btn btn-ghost" type="button" data-act="cancel">Cancel</button>
+      <button class="btn btn-primary" type="submit">${isNew ? 'Add client' : 'Save changes'}</button>
+    </div>
+  </form>`;
+}
+function projectBlock(p, i, openPid) {
+  const d = p.d, k = `p${i}`, open = !p.id || p.id === openPid || draft.projects.length === 1;
+  const removable = !p.id || !SEED_PROJECTS.has(p.id);
+  return `<details class="pblock" data-project="${i}" data-pid="${p.id || ''}" ${open ? 'open' : ''}>
+    <summary>${p.c ? `<span class="tag"><i style="background:${p.c}"></i>${p.id}</span>` : '<span class="tag">New</span>'}<strong style="font-weight:600">${esc(p.name) || 'Untitled project'}</strong>
+      <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></summary>
+    <div class="pbody-f"><div class="fgrid">
+      ${field(`${k}-name`, 'Project name', p.name, { req: true, full: true, attrs: 'data-k="name"' })}
+      ${field(`${k}-type`, 'Building type / size summary', p.type, { attrs: 'data-k="type" placeholder="e.g. 3-story office · 48,000 sf"', full: true })}
+      <div class="subhead-f">Location</div>
+      ${field(`${k}-address`, 'Street address', d.address, { req: true, attrs: 'data-dk="address"' })}
+      ${field(`${k}-city`, 'City, state ZIP', d.city, { req: true, attrs: 'data-dk="city" placeholder="Portland, OR 97209"' })}
+      ${field(`${k}-lat`, 'Latitude', d.lat ?? '', { attrs: 'data-dk="lat" inputmode="decimal"', err: 'Between -90 and 90' })}
+      ${field(`${k}-lon`, 'Longitude', d.lon ?? '', { attrs: 'data-dk="lon" inputmode="decimal"', err: 'Between -180 and 180' })}
+      <div class="full flex items-center gap-3 flex-wrap"><button class="btn btn-ghost btn-sm" type="button" data-act="geocode" data-i="${i}">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Find on map from address</button>
+        <span class="hint" data-geo-msg style="font-size:12px;color:var(--ink-3)">Looks up coordinates with OpenStreetMap.</span></div>
+      <div class="mini-map" data-map>${d.lat != null && d.lon != null ? `<iframe title="Map preview" src="${mapSrc(d.lat, d.lon)}" loading="lazy"></iframe>` : 'Map preview appears once coordinates are set'}</div>
+      <div class="subhead-f">Status &amp; schedule</div>
+      ${select(`${k}-phase`, 'Current phase', p.phase, PHASE_OPTS).replace('<select', '<select data-k="phase"')}
+      ${select(`${k}-status`, 'Status', p.status, [['on', 'On track'], ['risk', 'At risk'], ['over', 'Over budget']]).replace('<select', '<select data-k="status"')}
+      ${field(`${k}-pct`, '% complete', p.pct, { type: 'number', attrs: 'data-k="pct" min="0" max="100" step="1"', err: '0 to 100' })}
+      ${field(`${k}-start`, 'Mobilized', toISO(d.start), { type: 'date', attrs: 'data-dk="start"' })}
+      ${field(`${k}-due`, 'Substantial completion', toISO(p.due), { type: 'date', req: true, attrs: 'data-k="due"' })}
+      <div class="subhead-f">Money</div>
+      ${field(`${k}-budget`, 'Contract value ($)', commas(p.budget), { req: true, attrs: 'data-k="budget" inputmode="decimal" placeholder="4,500,000"', err: 'Enter a dollar amount' })}
+      ${field(`${k}-spent`, 'Cost to date ($)', commas(p.spent), { attrs: 'data-k="spent" inputmode="decimal"', err: 'Enter a dollar amount' })}
+      ${field(`${k}-forecast`, 'Forecast at completion ($)', commas(p.forecast), { attrs: 'data-k="forecast" inputmode="decimal"', hint: 'Leave blank to use the contract value', err: 'Enter a dollar amount' })}
+      <div class="subhead-f">Team &amp; contract</div>
+      ${field(`${k}-pm`, 'Project manager', p.pm, { attrs: 'data-k="pm"' })}
+      ${field(`${k}-super`, 'Superintendent', d.super, { attrs: 'data-dk="super"' })}
+      ${field(`${k}-architect`, 'Architect', d.architect, { attrs: 'data-dk="architect"' })}
+      ${field(`${k}-contract`, 'Delivery / contract type', d.contract, { attrs: 'data-dk="contract" placeholder="Lump sum, GMP, design-build…"' })}
+      ${field(`${k}-size`, 'Size', d.size, { attrs: 'data-dk="size" placeholder="62,000 sf · 4 stories"' })}
+      <div class="field full photo-field">
+        <span class="flabel" id="${k}-photo-l">Site photo</span>
+        <div class="upl" data-drop>
+          <div class="upl-prev" data-prev>${d.photo ? `<img src="${esc(d.photo)}" alt="">` : '<span>No photo yet</span>'}</div>
+          <div class="upl-side">
+            <div class="flex flex-wrap gap-2">
+              <input type="file" id="${k}-file" accept="image/jpeg,image/png,image/webp,image/heic" data-upload class="sr-only" aria-labelledby="${k}-photo-l ${k}-file-l">
+              <label for="${k}-file" id="${k}-file-l" class="btn btn-ghost btn-sm upl-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 16V4m0 0-4 4m4-4 4 4M4 20h16"/></svg>${d.photo ? 'Replace photo' : 'Upload photo'}</label>
+              ${d.photo ? '<button class="btn btn-ghost btn-sm" type="button" data-act="rm-photo">Remove</button>' : ''}
+            </div>
+            <span class="hint" data-upl-msg>JPG, PNG or WebP, or drag one here. Large photos are resized to 1600px. Also used as the client's avatar.</span>
+            <input type="hidden" data-dk="photo" value="${esc(d.photo)}">
+            <div class="field" style="margin-top:var(--s2)"><label for="${k}-photo">…or paste an image link</label>
+              <input id="${k}-photo" type="url" data-photo-url value="${esc(/^data:/.test(d.photo || '') ? '' : d.photo)}" placeholder="https://… or assets/projects/…"><span class="err">Enter a full URL</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="full" style="display:flex;justify-content:flex-end">${removable
+        ? `<button class="btn btn-danger btn-sm" type="button" data-act="rm-project" data-i="${i}">Remove project</button>`
+        : '<span class="hint" style="font-size:11px;color:var(--ink-3)">This project has schedule and billing history, so it can be edited but not removed here.</span>'}</div>
+    </div></div>
+  </details>`;
+}
+
+/* read the form back into the draft (keeps typed values when rows are added or removed) */
+function readForm() {
+  draft.name = $('#f-name').value.trim(); draft.office = $('#f-office').value.trim();
+  draft.contacts = [...drawer.querySelectorAll('[data-contact]')].map(row => {
+    const c = {}; row.querySelectorAll('[data-k]').forEach(el => c[el.dataset.k] = el.value.trim()); return c;
+  });
+  draft.projects = [...drawer.querySelectorAll('[data-project]')].map(block => {
+    const old = draft.projects[+block.dataset.project], p = { ...old, d: { ...old.d } };
+    block.querySelectorAll('[data-k]').forEach(el => p[el.dataset.k] = el.value.trim());
+    block.querySelectorAll('[data-dk]').forEach(el => p.d[el.dataset.dk] = el.value.trim());
+    return p;
+  });
+}
+
+function validate() {
+  let first = null;
+  const flag = (el, bad) => { el.setAttribute('aria-invalid', bad ? 'true' : 'false'); if (bad && !first) first = el; };
+  drawer.querySelectorAll('input, select').forEach(el => el.setAttribute('aria-invalid', 'false'));
+  drawer.querySelectorAll('input[required]').forEach(el => flag(el, !el.value.trim()));
+  drawer.querySelectorAll('input[type="email"]').forEach(el => el.value.trim() && flag(el, !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value.trim())));
+  drawer.querySelectorAll('input[type="tel"]').forEach(el => el.value.trim() && flag(el, el.value.replace(/\D/g, '').replace(/^1/, '').length !== 10));
+  drawer.querySelectorAll('input[type="url"]').forEach(el => el.value.trim() && flag(el, !/^(https?:\/\/|assets\/)\S+$/.test(el.value.trim())));
+  drawer.querySelectorAll('[data-k="budget"], [data-k="spent"], [data-k="forecast"]').forEach(el => el.value.trim() && flag(el, num(el.value) == null || num(el.value) < 0));
+  drawer.querySelectorAll('[data-k="pct"]').forEach(el => { const n = num(el.value); flag(el, n == null || n < 0 || n > 100); });
+  drawer.querySelectorAll('[data-dk="lat"]').forEach(el => el.value.trim() && flag(el, Math.abs(num(el.value)) > 90 || num(el.value) == null));
+  drawer.querySelectorAll('[data-dk="lon"]').forEach(el => el.value.trim() && flag(el, Math.abs(num(el.value)) > 180 || num(el.value) == null));
+  if (first) { first.closest('details')?.setAttribute('open', ''); first.focus(); first.scrollIntoView({ block: 'center' }); }
+  return !first;
+}
+
+const nextId = (prefix, list, min) => prefix + String(Math.max(min, ...list.map(x => +x.id.split('-')[1] || 0)) + 1).padStart(prefix === 'C-' ? 2 : 3, '0');
+function save() {
+  readForm();
+  if (!validate()) { toast('Check the highlighted fields', true); return; }
+  const isNew = !draft.id;
+  const client = isNew ? { id: nextId('C-', clients, 0) } : C[draft.id];
+  Object.assign(client, { name: draft.name, office: draft.office, contacts: draft.contacts.map(c => { const o = { ...c }; if (!o.mobile) delete o.mobile; return o; }) });
+  if (isNew) { clients.push(client); C[client.id] = client; }
+
+  // projects removed from the form
+  const keep = new Set(draft.projects.filter(p => p.id).map(p => p.id));
+  projectsOf(client.id).filter(p => !keep.has(p.id)).forEach(p => { projects.splice(projects.indexOf(p), 1); delete details[p.id]; delete P[p.id]; });
+
+  draft.projects.forEach(dp => {
+    const budget = num(dp.budget), forecast = num(dp.forecast);
+    const fields = { name: dp.name, type: dp.type, phase: dp.phase, status: dp.status, pct: Math.round(num(dp.pct) ?? 0),
+      budget, spent: num(dp.spent) ?? 0, forecast: forecast ?? budget, pm: dp.pm, due: fromISO(dp.due), client: client.id };
+    const d = { address: dp.d.address, city: dp.d.city, lat: num(dp.d.lat), lon: num(dp.d.lon), architect: dp.d.architect, contract: dp.d.contract,
+      size: dp.d.size, start: fromISO(dp.d.start), super: dp.d.super, photo: dp.d.photo };
+    let p = dp.id && P[dp.id];
+    if (!p) { p = { id: nextId('P-', projects, 230), c: nextColor(), over: {} }; projects.push(p); P[p.id] = p; }
+    Object.assign(p, fields);
+    details[p.id] = { ...(details[p.id] || {}), ...d };
+    if (!d.photo) delete details[p.id].photo;
+    if (d.photo && details[p.id].credit && d.photo !== (SEED.details[p.id] || {}).photo) delete details[p.id].credit;
+  });
+
+  if (!saveStore()) { toast('Could not save — browser storage is full or blocked. Try a smaller photo.', true); return; }
+  dirty = false; renderList(); viewing = client.id; openView(client.id); drawer.scrollTop = 0;
+  toast(`${isNew ? 'Added' : 'Saved'} ${client.name}`);
+}
+
+drawer.addEventListener('input', () => { dirty = true; });
+drawer.addEventListener('submit', e => { e.preventDefault(); save(); });
+drawer.addEventListener('click', async e => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.classList.contains('x')) return closeEditor(false, false);
+  if (b.dataset.act === 'cancel') return closeEditor();
+  if (b.dataset.act === 'edit') return openEditor(viewing);
+  if (b.dataset.act === 'edit-project') return openEditor(viewing, b.dataset.pid);
+  const cp = b.closest('[data-copy]');
+  if (cp) { navigator.clipboard?.writeText(cp.dataset.copy).catch(() => {}); cp.classList.add('done'); setTimeout(() => cp.classList.remove('done'), 1400); return; }
+  if (b.dataset.act === 'rm-photo') { const blk = b.closest('[data-project]'); blk.querySelector('[data-photo-url]').value = ''; setPhoto(blk, ''); blk.querySelector('[data-upl-msg]').textContent = 'Photo removed. Save to keep the change.'; return; }
+  const act = b.dataset.act, i = +b.dataset.i;
+  if (act === 'add-contact') { readForm(); draft.contacts.push(blankContact(draft.contacts.length ? 'Day-to-day' : 'Primary')); dirty = true; renderForm(); drawer.querySelector(`#c-name-${draft.contacts.length - 1}`).focus(); }
+  if (act === 'rm-contact') { readForm(); draft.contacts.splice(i, 1); dirty = true; renderForm(); }
+  if (act === 'add-project') { readForm(); draft.projects.push(blankProject()); dirty = true; renderForm(); const n = draft.projects.length - 1; drawer.querySelector(`#p${n}-name`).focus(); }
+  if (act === 'rm-project') { if (!confirm('Remove this project from the client?')) return; readForm(); draft.projects.splice(i, 1); dirty = true; renderForm(); }
+  if (act === 'delete') {
+    if (!confirm(`Delete ${draft.name} and its ${draft.projects.length} project(s)? This cannot be undone.`)) return;
+    projectsOf(draft.id).forEach(p => { projects.splice(projects.indexOf(p), 1); delete details[p.id]; delete P[p.id]; });
+    clients.splice(clients.indexOf(C[draft.id]), 1); delete C[draft.id];
+    saveStore(); dirty = false; closeEditor(true, false); renderList(); toast('Client deleted');
+  }
+  if (act === 'geocode') {
+    const block = b.closest('[data-project]'), msg = block.querySelector('[data-geo-msg]');
+    const addr = [block.querySelector('[data-dk="address"]').value, block.querySelector('[data-dk="city"]').value].filter(Boolean).join(', ');
+    if (!addr) { msg.textContent = 'Enter the street address and city first.'; return; }
+    msg.textContent = 'Looking up…'; b.disabled = true;
+    try {
+      const r = await fetch(`https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=us&q=${encodeURIComponent(addr)}`, { headers: { 'Accept-Language': 'en' } });
+      const [hit] = await r.json();
+      if (!hit) { msg.textContent = 'No match. Check the address, or type the coordinates in.'; }
+      else {
+        const lat = +(+hit.lat).toFixed(5), lon = +(+hit.lon).toFixed(5);
+        block.querySelector('[data-dk="lat"]').value = lat; block.querySelector('[data-dk="lon"]').value = lon;
+        block.querySelector('[data-map]').innerHTML = `<iframe title="Map preview" src="${mapSrc(lat, lon)}"></iframe>`;
+        msg.textContent = `Found: ${hit.display_name.split(',').slice(0, 3).join(',')}`; dirty = true;
+      }
+    } catch { msg.textContent = 'Lookup failed (offline?). Type the coordinates in instead.'; }
+    b.disabled = false;
+  }
+});
+/* ---------- Photo upload: resized in the browser, stored with the project ---------- */
+const MAX_SIDE = 1600;
+function readImage(file) {
+  return new Promise((resolve, reject) => {
+    if (!file.type.startsWith('image/')) return reject(new Error('That file is not an image.'));
+    if (file.size > 25 * 1024 * 1024) return reject(new Error('That image is over 25 MB.'));
+    const url = URL.createObjectURL(file), img = new Image();
+    img.onload = () => {
+      const k = Math.min(1, MAX_SIDE / Math.max(img.naturalWidth, img.naturalHeight));
+      const cv = document.createElement('canvas'); cv.width = Math.round(img.naturalWidth * k); cv.height = Math.round(img.naturalHeight * k);
+      cv.getContext('2d').drawImage(img, 0, 0, cv.width, cv.height); URL.revokeObjectURL(url);
+      resolve(cv.toDataURL('image/jpeg', .8));
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('This browser could not read that image.')); };
+    img.src = url;
+  });
+}
+function setPhoto(block, src) {
+  block.querySelector('[data-dk="photo"]').value = src;
+  block.querySelector('[data-prev]').innerHTML = src ? `<img src="${esc(src)}" alt="">` : '<span>No photo yet</span>';
+  block.querySelector('.upl-btn').lastChild.textContent = src ? 'Replace photo' : 'Upload photo';
+  const side = block.querySelector('.upl-side .flex'), rm = side.querySelector('[data-act="rm-photo"]');
+  if (src && !rm) side.insertAdjacentHTML('beforeend', '<button class="btn btn-ghost btn-sm" type="button" data-act="rm-photo">Remove</button>');
+  if (!src && rm) rm.remove();
+  dirty = true;
+}
+async function takeFile(block, file) {
+  const msg = block.querySelector('[data-upl-msg]');
+  msg.textContent = 'Processing photo…';
+  try {
+    const src = await readImage(file);
+    setPhoto(block, src); block.querySelector('[data-photo-url]').value = '';
+    msg.textContent = `${file.name} added · ${Math.round(src.length * .75 / 1024)} KB after resizing. Save to keep it.`;
+  } catch (err) { msg.textContent = err.message; }
+}
+drawer.addEventListener('change', e => { if (e.target.matches('[data-upload]') && e.target.files[0]) takeFile(e.target.closest('[data-project]'), e.target.files[0]); });
+drawer.addEventListener('input', e => { if (e.target.matches('[data-photo-url]')) { const v = e.target.value.trim(); setPhoto(e.target.closest('[data-project]'), v); } });
+drawer.addEventListener('dragover', e => { const z = e.target.closest('[data-drop]'); if (z) { e.preventDefault(); z.classList.add('over'); } });
+drawer.addEventListener('dragleave', e => { const z = e.target.closest('[data-drop]'); if (z && !z.contains(e.relatedTarget)) z.classList.remove('over'); });
+drawer.addEventListener('drop', e => {
+  const z = e.target.closest('[data-drop]'); if (!z) return;
+  e.preventDefault(); z.classList.remove('over');
+  if (e.dataTransfer.files[0]) takeFile(z.closest('[data-project]'), e.dataTransfer.files[0]);
+});
+
+drawer.addEventListener('change', e => { // live map preview when coordinates are typed
+  const el = e.target; if (!el.matches('[data-dk="lat"], [data-dk="lon"]')) return;
+  const block = el.closest('[data-project]'), lat = num(block.querySelector('[data-dk="lat"]').value), lon = num(block.querySelector('[data-dk="lon"]').value);
+  if (lat != null && lon != null && Math.abs(lat) <= 90 && Math.abs(lon) <= 180) block.querySelector('[data-map]').innerHTML = `<iframe title="Map preview" src="${mapSrc(lat, lon)}"></iframe>`;
+});
+drawer.addEventListener('focusout', e => { // money fields tidy up to 1,234,000
+  const el = e.target; if (el.matches('[data-k="budget"], [data-k="spent"], [data-k="forecast"]') && num(el.value) != null) el.value = commas(num(el.value));
+});
+scrim.addEventListener('click', () => closeEditor());
+document.addEventListener('keydown', e => {
+  if (!drawer.classList.contains('open')) return;
+  if (e.key === 'Escape') closeEditor(false, false);
+  if (e.key === 'Tab') {
+    const f = [...drawer.querySelectorAll('button:not([disabled]), input, select, summary, a[href]')]; const first = f[0], last = f[f.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  }
+});
+
+let toastTimer;
+function toast(msg, warn) {
+  const t = $('#toast'); t.innerHTML = `${warn ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="var(--warn)"><path d="M12 2 23 21H1z"/><path d="M12 9v5M12 17v.5" stroke="#1d1b17" stroke-width="2.2" stroke-linecap="round"/></svg>' : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m5 12 5 5L20 7"/></svg>'}${esc(msg)}`;
+  t.classList.add('on'); clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('on'), 2600);
+}
+
+renderList();
+const params = new URLSearchParams(location.search);
+if (params.get('view') && C[params.get('view')]) openView(params.get('view'));
+else if (params.get('edit') && C[params.get('edit')]) { viewing = params.get('edit'); openEditor(params.get('edit'), params.get('project')); }
+else if (params.get('new') !== null && params.has('new')) openEditor(null);
+document.querySelectorAll('.reveal').forEach(el => el.classList.add('is-in'));
+</script>
+</body>
+</html>

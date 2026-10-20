@@ -1,0 +1,142 @@
+/* "Glass" style: dark frosted cards over a satellite map, Manrope throughout.
+   Active when <html data-style="glass">. Always dark, whatever the light/dark setting. */
+:root[data-style="glass"] {
+  color-scheme: dark;
+  --page: #0a0a0a;
+  --grid-line: transparent;
+  --surface: rgba(28, 28, 28, .62);
+  --surface-2: rgba(255, 255, 255, .045);
+  --float: rgba(52, 52, 52, .72);
+  --float-text: #f1f1f1;
+  --side: rgba(14, 14, 14, .58);
+  --side-text: #ededed;
+  --hair: rgba(255, 255, 255, .07);
+  --track: rgba(255, 255, 255, .08);
+  --ink: #ededed;
+  --ink-2: #a3a3a3;
+  --ink-3: #6e6e6e;
+  --brand: #e8823a;
+  --brand-hover: #f0954f;
+  --brand-press: #cf6f2b;
+  --brand-tint: rgba(232, 130, 58, .14);
+  --p1: #3987e5; --p2: #199e70; --p3: #d55181; --p4: #c98500; --p5: #9085e9; --p6: #e66767; --p7: #d95926; --p8: #008300; --p-other: #8f887c;
+  --shadow-1: 0 1px 0 rgba(255,255,255,.04) inset, 0 10px 30px -12px rgba(0,0,0,.6);
+  --shadow-2: 0 1px 0 rgba(255,255,255,.06) inset, 0 24px 60px -20px rgba(0,0,0,.75);
+  --glass: blur(22px) saturate(140%);
+  --r-card: 22px;
+}
+
+/* backdrop */
+[data-style="glass"] body {
+  background: #0a0a0a;
+  font-family: 'Manrope', system-ui, sans-serif;
+  letter-spacing: -0.005em;
+}
+[data-style="glass"] body::before { opacity: .035; mix-blend-mode: overlay; }
+#bgmap { position: fixed; inset: 0; z-index: -2; pointer-events: none; background: #0a0a0a; }
+#bgmap .leaflet-tile-pane { filter: brightness(.62) saturate(.7) contrast(1.1); }
+#bgmap::after { /* keep the left side quieter where most cards sit */
+  content: ""; position: absolute; inset: 0; z-index: 500;
+  background: linear-gradient(90deg, rgba(10,10,10,.7) 0%, rgba(10,10,10,.35) 40%, rgba(10,10,10,.05) 100%),
+              linear-gradient(0deg, rgba(10,10,10,.5), transparent 45%);
+}
+.site-pin { width: 18px; height: 18px; border-radius: 50%; border: 3px solid #f1f1f1; background: rgba(20,20,20,.9); box-shadow: 0 0 0 6px rgba(255,255,255,.08); }
+
+/* type: one family, light display weights, no all-caps */
+[data-style="glass"] .display {
+  font-family: 'Manrope', sans-serif; text-transform: none; font-weight: 300 !important; letter-spacing: -0.035em; line-height: 1.05;
+}
+[data-style="glass"] h2.display { font-size: 22px; font-weight: 400 !important; letter-spacing: -0.02em; }
+[data-style="glass"] .mono, [data-style="glass"] .tag, [data-style="glass"] th, [data-style="glass"] .eyebrow,
+[data-style="glass"] .count, [data-style="glass"] .ctag, [data-style="glass"] .dsec h3, [data-style="glass"] .form-sec > h3,
+[data-style="glass"] .subhead-f, [data-style="glass"] .sched .hd, [data-style="glass"] .mini-days, [data-style="glass"] .new-badge {
+  font-family: 'Manrope', sans-serif;
+}
+[data-style="glass"] .eyebrow, [data-style="glass"] .dsec h3, [data-style="glass"] .form-sec > h3, [data-style="glass"] .subhead-f {
+  text-transform: none; letter-spacing: 0; font-size: 12px; font-weight: 500; color: var(--ink-3);
+}
+[data-style="glass"] th { text-transform: none; letter-spacing: 0; font-size: 12px; font-weight: 500; }
+[data-style="glass"] .sched .hd { text-transform: none; letter-spacing: 0; }
+[data-style="glass"] .sched .hd b, [data-style="glass"] .mini-days b { font-family: 'Manrope', sans-serif; font-weight: 500; }
+[data-style="glass"] .kpi .value { font-weight: 300; font-size: 34px; letter-spacing: -0.03em; }
+[data-style="glass"] .kpi.hero .value { font-size: 56px; font-weight: 300; }
+[data-style="glass"] .pstats dd, [data-style="glass"] .substats dd, [data-style="glass"] .facts dd { font-weight: 500; }
+[data-style="glass"] .substats dd { font-weight: 300; font-size: 24px; }
+
+/* surfaces: frosted glass */
+[data-style="glass"] .card, [data-style="glass"] .pcard {
+  background: var(--surface); border-color: var(--hair); border-radius: var(--r-card);
+  -webkit-backdrop-filter: var(--glass); backdrop-filter: var(--glass);
+}
+[data-style="glass"] .pcard::after { border-radius: var(--r-card); }
+[data-style="glass"] .photo { border-radius: calc(var(--r-card) - 1px) calc(var(--r-card) - 1px) 0 0; }
+[data-style="glass"] .photo .tint { opacity: .12; }
+[data-style="glass"] .kpi.hero { /* the "selected" card: lighter frosted gradient */
+  background: linear-gradient(150deg, rgba(150,150,150,.34) 0%, rgba(70,70,70,.28) 45%, rgba(30,30,30,.5) 100%);
+  border: 1px solid rgba(255,255,255,.12); color: var(--ink);
+}
+[data-style="glass"] .kpi.hero::after { display: none; }
+[data-style="glass"] .kpi.hero .label, [data-style="glass"] .kpi.hero .sub { color: rgba(255,255,255,.62); }
+[data-style="glass"] .side { -webkit-backdrop-filter: var(--glass); backdrop-filter: var(--glass); border-right: 1px solid var(--hair); }
+[data-style="glass"] .hazard { display: none; }
+[data-style="glass"] .side svg rect[fill="var(--brand)"] { fill: rgba(255,255,255,.1); }
+[data-style="glass"] .nav a[aria-current="page"] { box-shadow: none; background: rgba(255,255,255,.08); }
+[data-style="glass"] .tag { border-radius: 999px; background: rgba(255,255,255,.06); border-color: var(--hair); padding: 1px 8px; }
+[data-style="glass"] .chip { background: rgba(255,255,255,.06); border-color: var(--hair); }
+[data-style="glass"] .photo .tag, [data-style="glass"] .photo .chip { background: rgba(20,20,20,.45); border-color: rgba(255,255,255,.14); color: #fff; -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+[data-style="glass"] .seg { background: rgba(255,255,255,.04); border-color: var(--hair); border-radius: 14px; }
+[data-style="glass"] .seg button { border-radius: 10px; }
+[data-style="glass"] .seg button[aria-selected="true"] { background: rgba(255,255,255,.11); box-shadow: none; }
+[data-style="glass"] .btn { border-radius: 12px; }
+[data-style="glass"] .btn-primary { background: #ededed; color: #111; box-shadow: none; }
+[data-style="glass"] .btn-primary:hover { background: #fff; }
+[data-style="glass"] .btn-primary:active { background: #d4d4d4; }
+[data-style="glass"] .btn-ghost { background: rgba(255,255,255,.05); border-color: var(--hair); }
+[data-style="glass"] .btn-ghost:hover { background: rgba(255,255,255,.1); }
+[data-style="glass"] .search, [data-style="glass"] .field input, [data-style="glass"] .field select { background-color: rgba(255,255,255,.05); border-color: var(--hair); border-radius: 12px; }
+[data-style="glass"] .field select option { background: #1c1c1c; }
+[data-style="glass"] .meter, [data-style="glass"] .bva-budget { background: rgba(255,255,255,.07); }
+[data-style="glass"] .task { background-color: rgba(30,30,30,.55); }
+[data-style="glass"] tbody.selectable tr:hover td { background: rgba(255,255,255,.04); }
+[data-style="glass"] .jump { background: rgba(10,10,10,.55); -webkit-backdrop-filter: var(--glass); backdrop-filter: var(--glass); border-radius: 16px; padding: var(--s3); }
+
+/* slide-out panel: lighter grey frosted glass */
+[data-style="glass"] .scrim { background: rgba(0,0,0,.32); }
+[data-style="glass"] .drawer {
+  background: rgba(62, 62, 62, .48); border-left: 1px solid rgba(255,255,255,.12);
+  -webkit-backdrop-filter: blur(40px) saturate(130%); backdrop-filter: blur(40px) saturate(130%);
+}
+[data-style="glass"] .drawer .dsec, [data-style="glass"] .drawer .form-sec { border-color: rgba(255,255,255,.08); }
+[data-style="glass"] .drawer .contact, [data-style="glass"] .drawer .row-card, [data-style="glass"] .drawer details.pblock { background: rgba(255,255,255,.05); border-color: rgba(255,255,255,.08); }
+[data-style="glass"] .drawer .map, [data-style="glass"] .drawer .mini-map { border-color: rgba(255,255,255,.1); }
+[data-style="glass"] .subhead { background: rgba(0,0,0,.25); background-image: none; }
+[data-style="glass"] .form-head, [data-style="glass"] .form-foot { background: rgba(48,48,48,.82); -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); border-color: rgba(255,255,255,.08); }
+[data-style="glass"] .x { border-radius: 12px; }
+[data-style="glass"] #tip, [data-style="glass"] .toast { -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,.1); }
+[data-style="glass"] .avatar { background: rgba(255,255,255,.1); color: #eee; }
+
+/* style switch in the sidebar */
+.style-switch { display: none; margin-top: var(--s4); }
+@media (min-width: 1024px) { .style-switch { display: flex; } }
+.style-switch { gap: 2px; padding: 3px; border-radius: 12px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.08); }
+.style-switch button { flex: 1; height: 28px; border: 0; border-radius: 9px; background: transparent; color: rgba(255,255,255,.6); font: 500 12px 'Manrope', 'IBM Plex Sans', sans-serif; cursor: pointer; }
+.style-switch button:hover { color: #fff; background: rgba(255,255,255,.06); }
+.style-switch button:active { transform: scale(.97); }
+.style-switch button[aria-pressed="true"] { background: rgba(255,255,255,.14); color: #fff; }
+.map-credit { font-size: 11px; color: var(--ink-3); }
+
+[data-style="glass"] .pcard[aria-pressed="true"] { /* selected: lighter frosted card, like the reference's active bus */
+  border-color: rgba(255,255,255,.16); box-shadow: var(--shadow-2);
+  background: linear-gradient(150deg, rgba(150,150,150,.30) 0%, rgba(70,70,70,.26) 45%, rgba(30,30,30,.5) 100%);
+}
+[data-style="glass"] .task, [data-style="glass"] .mini-bar, [data-style="glass"] .today-line::before, [data-style="glass"] .credit { font-family: 'Manrope', sans-serif; }
+[data-style="glass"] .drawer { --ink-2: #cfcfcf; --ink-3: #a2a2a2; --track: rgba(255,255,255,.12); }
+/* header search + header ghost buttons (Export, Reset demo data): a clearer edge */
+[data-style="glass"] .search, [data-style="glass"] main > header .btn-ghost { border-color: rgba(255,255,255,.16); }
+[data-style="glass"] .search:hover, [data-style="glass"] main > header .btn-ghost:hover { border-color: rgba(255,255,255,.28); }
+/* search placeholder + icon match the Export button text */
+[data-style="glass"] .search::placeholder { color: var(--ink); opacity: 1; }
+[data-style="glass"] .search { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%23ededed' stroke-width='2'%3E%3Ccircle cx='7' cy='7' r='5'/%3E%3Cpath d='m11 11 3.5 3.5'/%3E%3C/svg%3E"); }
+[data-style="glass"] .field textarea { background: rgba(255,255,255,.05); border-color: var(--hair); border-radius: 12px; }
+[data-style="glass"] .ficon { font-family: 'Manrope', sans-serif; }
+[data-style="glass"] .field select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%23ededed' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m4 6 4 4 4-4'/%3E%3C/svg%3E"); }

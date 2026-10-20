@@ -1,0 +1,823 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ironline Site Office</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<link rel="stylesheet" href="assets/theme-glass.css">
+<script>/* pick the visual style before first paint: ?style=glass|office, else the saved choice, else glass */
+  (() => { let s = new URLSearchParams(location.search).get('style'); try { s = s || localStorage.getItem('ironline-style'); } catch {} document.documentElement.dataset.style = s === 'office' ? 'office' : 'glass'; })();
+</script>
+</head>
+<body>
+<div class="shell">
+  <!-- Sidebar (floating plane) -->
+  <aside class="side">
+    <div>
+      <div class="flex items-center gap-3">
+        <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true">
+          <rect width="34" height="34" rx="8" fill="var(--brand)"/>
+          <path d="M8 25V12l9-5 9 5v13" fill="none" stroke="#fff" stroke-width="2.5" stroke-linejoin="round"/>
+          <path d="M13 25v-7h8v7" fill="none" stroke="#fff" stroke-width="2.5"/>
+        </svg>
+        <div>
+          <div class="display" style="font-size:20px;font-weight:800">Ironline</div>
+          <div class="mono" style="font-size:10px;letter-spacing:.12em;opacity:.6">BUILDERS · SITE OFFICE</div>
+        </div>
+      </div>
+      <div class="hazard mt-5 hidden lg:block"></div>
+    </div>
+    <nav class="nav" aria-label="Primary">
+      <a href="#" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>Overview</a>
+      <a href="#projects"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6"/></svg>Projects</a>
+      <a href="clients.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5a6.5 6.5 0 0 1 3.5 5.5"/></svg>Clients</a>
+      <a href="#budget"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Budgets</a>
+      <a href="cost-codes.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Cost codes</a>
+      <a href="#schedule"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Crews &amp; schedule</a>
+      <a href="#docs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg>Documents</a>
+    </nav>
+    <div class="hidden lg:flex mt-auto items-center gap-3 pt-4" style="border-top:1px solid color-mix(in oklab, var(--side-text) 12%, transparent)">
+      <img src="https://placehold.co/64x64/2a2722/f6f3ec?text=MR" width="32" height="32" alt="" class="rounded-full">
+      <div style="line-height:1.3"><div style="font-weight:600;font-size:13px">Maria Reyes</div><div style="font-size:12px;opacity:.6">Operations Director</div></div>
+    </div>
+    <button class="btn btn-ghost lg:hidden" aria-label="Open menu" style="background:transparent;color:var(--side-text);border-color:color-mix(in oklab, var(--side-text) 20%, transparent)">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </aside>
+
+  <main>
+    <!-- Header -->
+    <header class="reveal flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+      <div>
+        <div class="eyebrow">Week 43 · Tue, Oct 20, 2026</div>
+        <h1 class="display" style="font-size:clamp(36px,5vw,56px);font-weight:800;letter-spacing:-0.03em;margin:4px 0 0">Operations overview</h1>
+      </div>
+      <div class="flex flex-wrap items-center gap-3">
+        <div class="w-full sm:w-64"><input class="search" type="search" placeholder="Search projects, subs, COs…" aria-label="Search"></div>
+        <button class="btn btn-ghost" type="button">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0-4-4m4 4 4-4M4 21h16"/></svg>Export
+        </button>
+        <button class="btn btn-primary" type="button">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg>New change order
+        </button>
+      </div>
+    </header>
+
+    <!-- KPI strip -->
+    <section class="kpis" id="kpis" aria-label="Key figures"></section>
+
+    <!-- Projects -->
+    <section class="card reveal" id="projects">
+      <div class="card-h">
+        <div><div class="eyebrow">Portfolio</div><h2 class="display">Active projects</h2></div>
+        <div class="seg" role="tablist" aria-label="Filter projects" id="filter">
+          <button role="tab" aria-selected="true" data-f="all">All</button>
+          <button role="tab" aria-selected="false" data-f="risk">At risk</button>
+          <button role="tab" aria-selected="false" data-f="closing">Closing out</button>
+        </div>
+      </div>
+      <div class="card-b">
+        <div class="pgrid" id="projCards"></div>
+        <p style="font-size:12px;color:var(--ink-3);margin:var(--s4) 0 0">Open a project for site details, location and open items. The selected project is also highlighted on the schedule below.</p>
+      </div>
+    </section>
+
+    <!-- Budget vs actual -->
+    <section class="grid gap-4 md:gap-6 xl:grid-cols-12" id="budget">
+      <div class="card reveal xl:col-span-7">
+        <div class="card-h">
+          <div><div class="eyebrow">Financials</div><h2 class="display">Budget vs. actual</h2></div>
+          <div class="legend">
+            <span><i class="sw" style="background:var(--track)"></i>Budget</span>
+            <span><i class="sw" style="background:var(--ink-2)"></i>Cost to date</span>
+            <span><i style="width:2px;height:14px;background:var(--ink);display:inline-block"></i>Forecast at completion</span>
+            <span><i class="sw" style="background:repeating-linear-gradient(135deg,var(--critical) 0 2px,transparent 2px 5px)"></i>Projected overrun</span>
+          </div>
+        </div>
+        <div class="card-b" id="bva"></div>
+      </div>
+      <div class="card reveal xl:col-span-5">
+        <div class="card-h">
+          <div><div class="eyebrow">Cost codes · all projects</div><h2 class="display">Portfolio breakdown</h2></div>
+          <a class="btn btn-ghost" href="cost-codes.html" style="height:34px;text-decoration:none">See all<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a>
+        </div>
+        <div class="card-b">
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr><th>Cost code</th><th style="width:30%">Spent / budget</th><th class="r">Budget</th><th class="r">Var.</th></tr></thead>
+              <tbody id="ccRows"></tbody>
+              <tfoot id="ccFoot"></tfoot>
+            </table>
+          </div>
+          <a class="link" href="cost-codes.html" style="display:inline-block;margin-top:var(--s3);font-size:13px">See breakdown for each project →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Schedule -->
+    <section class="card reveal" id="schedule">
+      <div class="card-h">
+        <div><div class="eyebrow">Workforce</div><h2 class="display">Subcontractor schedule</h2></div>
+        <div class="legend" id="schedLegend"></div>
+      </div>
+      <div class="card-b">
+        <div class="tbl-wrap" style="padding-top:22px"><div class="sched" id="sched"></div></div>
+      </div>
+    </section>
+
+    <!-- Documents -->
+    <section class="card reveal" id="docs">
+      <div class="card-h" style="padding-bottom:0">
+        <div><div class="eyebrow">Change orders · permits · inspections · invoices</div><h2 class="display">Documents</h2></div>
+        <button class="btn btn-primary" type="button" id="addDocBtn" aria-haspopup="dialog">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg><span>Add document</span></button>
+      </div>
+      <div class="card-b" style="padding-top:var(--s2)">
+        <div class="tabbar" role="tablist" id="docTabs"></div>
+        <div class="tbl-wrap" style="margin-top:var(--s2)"><table id="docTable"></table></div>
+      </div>
+    </section>
+
+    <footer class="mono" style="font-size:11px;color:var(--ink-3);padding:var(--s2) 0 var(--s4)">Data as of Oct 20, 2026 07:30 · Ironline Builders, Inc.</footer>
+  </main>
+</div>
+<div id="tip" role="tooltip"></div>
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="dTitle" aria-hidden="true"></aside>
+
+<script src="assets/seed.js"></script>
+<script src="assets/shared.js"></script>
+<script>
+/* ---------- KPIs ---------- */
+const totBudget = projects.reduce((a, p) => a + p.budget, 0);
+const totFc = projects.reduce((a, p) => a + p.forecast, 0);
+const totSpent = projects.reduce((a, p) => a + p.spent, 0);
+const varPct = (totFc - totBudget) / totBudget * 100;
+let kpisShown = false;
+function renderKpis() {
+  const docAmt = (k, ok) => recordsOf(k).filter(ok);
+  const coOpen = docAmt('Change orders', r => ['Draft', 'In review', 'Pending owner'].includes(r.cells[5][0]));
+  const insp = docAmt('Inspections', r => /^(Scheduled|Re-inspection)/.test(r.cells[5][0]));
+  const ar = docAmt('Invoices', r => /\(owner\)/.test(r.cells[2]) && r.cells[5][0] !== 'Paid');
+  const arOver = ar.filter(r => r.cells[5][1] === 'critical').length, reinsp = insp.filter(r => r.cells[5][0] === 'Re-inspection').length;
+  const rv = kpisShown ? 'reveal is-in' : 'reveal';
+  $('#kpis').innerHTML = [
+  `<div class="card kpi hero ${rv}"><span class="label">Contract value under construction</span><span class="value num">${money(totBudget)}</span><span class="sub">${projects.length} active projects · ${money(totSpent)} cost to date</span></div>`,
+  `<div class="card kpi ${rv}"><span class="label">Forecast vs. budget</span><span class="value num">${signed(totFc - totBudget)}</span><span class="delta" style="color:${totFc > totBudget ? 'var(--critical)' : 'var(--ink-2)'}">${totFc > totBudget ? '<svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor"><path d="M5 1 9 7H1z"/></svg>' : ''}${Math.abs(varPct).toFixed(1)}% ${totFc > totBudget ? 'over' : 'under'} · ${projects.filter(p => p.forecast > p.budget).length} over budget</span></div>`,
+  `<div class="card kpi ${rv}"><span class="label">Open change orders</span><span class="value num">${coOpen.length}</span><span class="sub">${money(coOpen.reduce((a, r) => a + r.cells[3], 0))} awaiting approval</span></div>`,
+  `<div class="card kpi ${rv}"><span class="label">Inspections this week</span><span class="value num">${insp.length}</span><span class="sub">${reinsp ? reinsp + ' re-inspection' + (reinsp > 1 ? 's' : '') + ' after a fail' : 'No re-inspections pending'}</span></div>`,
+  `<div class="card kpi ${rv}"><span class="label">Receivables outstanding</span><span class="value num">${money(ar.reduce((a, r) => a + r.cells[3], 0))}</span><span class="delta" style="color:var(--ink-2)">${arOver ? STATUS.over.icon.replace('<svg', '<svg width="12" height="12"') + arOver + ' pay app' + (arOver > 1 ? 's' : '') + ' overdue' : 'Nothing overdue'}</span></div>`,
+].join('');
+  kpisShown = true;
+}
+
+const PHASES = ['Sitework', 'Foundations', 'Structure', 'Envelope', 'Interiors', 'Closeout'];
+const PHASE_SHORT = ['Site', 'Fdn.', 'Struct.', 'Envel.', 'Interior', 'Close'];
+const phaseIndex = p => PHASES.indexOf(p.phase === 'Framing' ? 'Structure' : p.phase);
+const photoUrl = p => details[p.id].photo || PLACEHOLDER_PHOTO;
+const photo = (p, w, h, inner = '') => `<div class="photo"><img src="${photoUrl(p)}" width="${w}" height="${h}" alt="Site photo, ${p.name}" loading="lazy">
+  <span class="tint" style="background:${p.c}"></span><span class="fade bg-gradient-to-t from-black/60 via-black/10 to-transparent"></span>${details[p.id].photo ? '' : '<span class="nophoto mono">No site photo yet</span>'}${inner}</div>`;
+
+/* ---------- Project cards ---------- */
+let selected = 'P-214', filter = 'all';
+function renderProjects() {
+  const list = projects.filter(p => filter === 'all' || (filter === 'risk' ? p.status !== 'on' : p.pct >= 90));
+  $('#projCards').innerHTML = list.map(p => {
+    const d = details[p.id];
+    return `<button class="pcard" type="button" data-id="${p.id}" aria-pressed="${p.id === selected}" aria-haspopup="dialog">
+      ${photo(p, 640, 320, `<div class="over"><span class="tag"><i style="background:${p.c}"></i>${p.id}</span>${chip(p.status)}</div>`)}
+      <div class="pbody">
+        <div style="line-height:1.35">
+          <div style="font-weight:600;font-size:16px">${p.name}</div>
+          <div style="font-size:12px;color:var(--ink-3)">${p.type} · ${d.city.split(',')[0]}</div>
+        </div>
+        <div>
+          <div class="flex justify-between" style="font-size:12px;color:var(--ink-2);margin-bottom:6px"><span>${p.phase}</span><span class="num" style="font-weight:600;color:var(--ink)">${p.pct}%</span></div>
+          <div class="meter"><span style="width:${p.pct}%;background:${p.c}"></span></div>
+        </div>
+        <dl class="pstats">
+          <div><dt>Contract</dt><dd>${money(p.budget)}</dd></div>
+          <div><dt>Cost to date</dt><dd>${money(p.spent)}</dd></div>
+          <div><dt>Forecast</dt><dd>${money(p.forecast)}</dd></div>
+        </dl>
+        <div class="pfoot"><span>${p.pm} · due ${p.due}</span>
+          <span class="go">Details<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span></div>
+      </div>
+    </button>`;
+  }).join('');
+}
+$('#projCards').addEventListener('click', e => { const c = e.target.closest('.pcard'); if (c) { select(c.dataset.id); openDrawer(c.dataset.id, c); } });
+
+/* ---------- Detail drawer ---------- */
+const drawer = $('#drawer'), scrim = $('#scrim');
+let lastTrigger = null;
+function openDrawer(id, trigger) {
+  const p = P[id], d = details[id], v = p.forecast - p.budget, pi = phaseIndex(p);
+  const dx = .012, dy = .007;
+  const mapSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${d.lon - dx},${d.lat - dy},${d.lon + dx},${d.lat + dy}&layer=mapnik&marker=${d.lat},${d.lon}`;
+  const items = records.filter(rec => rec.cells[1] === id).map(rec => ({ k: rec.kind, r: rec.cells, rec }));
+  const crews = subs.flatMap(s => s.tasks.filter(t => t.p === id).map(t => ({ s, t })));
+  drawer.innerHTML = `
+    <button class="x" type="button" aria-label="Close details"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    ${photo(p, 1240, 700, `<div class="over">
+      <div class="flex gap-2 items-center"><span class="tag"><i style="background:${p.c}"></i>${p.id}</span>${chip(p.status)}</div>
+      <h2 id="dTitle" class="display" style="font-size:40px;font-weight:800;letter-spacing:-0.03em;margin:var(--s2) 0 0">${p.name}</h2>
+      <div style="opacity:.85">${d.address}, ${d.city}</div></div>
+      ${d.credit ? `<a class="credit" href="${d.credit.url}" target="_blank" rel="noopener">Photo: ${d.credit.by} · ${d.credit.license} · Wikimedia Commons (mockup)</a>` : ''}`)}
+    <section class="dsec">
+      <h3>Progress</h3>
+      <div class="flex items-baseline justify-between"><span style="font-weight:600;font-size:28px;letter-spacing:-0.02em" class="num">${p.pct}%</span><span style="color:var(--ink-2);font-size:13px">Substantial completion ${p.due}</span></div>
+      <div class="phases">${PHASES.map((_, i) => `<div style="background:${i < pi ? p.c : i === pi ? `color-mix(in oklab, ${p.c} 55%, var(--track))` : 'var(--track)'}"></div>`).join('')}</div>
+      <div class="phase-labels">${PHASES.map((n, i) => `<span class="${i === pi ? 'cur' : ''}"><span class="hidden sm:inline">${n}</span><span class="sm:hidden">${PHASE_SHORT[i]}</span></span>`).join('')}</div>
+    </section>
+    <section class="dsec">
+      <h3 class="flex justify-between items-center"><span>Project facts</span><a class="link" style="font-family:'IBM Plex Sans';text-transform:none;letter-spacing:0;font-size:12px" href="clients.html?edit=${p.client}&project=${p.id}">Edit project</a></h3>
+      <dl class="facts">
+        <div><dt>Owner</dt><dd>${clientOf(id).name}</dd></div>
+        <div><dt>Architect</dt><dd>${d.architect || '—'}</dd></div>
+        <div><dt>Delivery / contract</dt><dd>${d.contract || '—'}</dd></div>
+        <div><dt>Size</dt><dd>${d.size || '—'}</dd></div>
+        <div><dt>Project manager</dt><dd>${p.pm || '—'}</dd></div>
+        <div><dt>Superintendent</dt><dd>${d.super || '—'}</dd></div>
+        <div><dt>Mobilized</dt><dd>${d.start || '—'}</dd></div>
+        <div><dt>Current phase</dt><dd>${p.phase}</dd></div>
+      </dl>
+    </section>
+    <section class="dsec">
+      <h3 class="flex justify-between items-center"><span>Client contacts · ${clientOf(id).name}</span><a class="link" style="font-family:'IBM Plex Sans';text-transform:none;letter-spacing:0;font-size:12px" href="clients.html?edit=${p.client}">Edit client</a></h3>
+      <div class="contacts">${clientOf(id).contacts.map((c, i) => contactCard(c, i, p.id + ' · ' + p.name)).join('')}</div>
+      <div style="margin-top:var(--s3);font-size:12px;color:var(--ink-3);line-height:1.5"><strong style="font-weight:500;color:var(--ink-2)">Client office</strong> · ${clientOf(id).office}</div>
+    </section>
+    <section class="dsec">
+      <h3>Financials</h3>
+      <dl class="facts" style="grid-template-columns:repeat(4,minmax(0,1fr))">
+        <div><dt>Contract</dt><dd class="num">${money(p.budget)}</dd></div>
+        <div><dt>Cost to date</dt><dd class="num">${money(p.spent)}</dd></div>
+        <div><dt>Forecast</dt><dd class="num">${money(p.forecast)}</dd></div>
+        <div><dt>Variance</dt><dd class="num" style="${v > 0 ? 'font-weight:600' : ''}">${v > 0 ? '+' : v < 0 ? '−' : ''}${money(Math.abs(v))}</dd></div>
+      </dl>
+      <a class="link" href="cost-codes.html#${p.id}" style="display:inline-block;margin-top:var(--s3);font-size:13px">See cost-code breakdown →</a>
+    </section>
+    <section class="dsec">
+      <h3>Site location</h3>
+      ${d.lat != null && d.lon != null ? `<div class="map"><iframe title="Map of ${p.name}" src="${mapSrc}" loading="lazy" referrerpolicy="no-referrer"></iframe></div>` : `<div class="map" style="display:grid;place-items:center;font-size:13px;color:var(--ink-3);text-align:center;padding:var(--s4)"><div>No map location yet.<br><a class="link" href="clients.html?edit=${p.client}&project=${p.id}">Add coordinates</a></div></div>`}
+      <div class="flex justify-between items-start gap-3" style="margin-top:var(--s3);font-size:13px">
+        <div style="line-height:1.4"><strong>${d.address}</strong><div style="color:var(--ink-3)">${d.city} · ${d.lat != null ? `<span class="mono" style="font-size:12px">${d.lat.toFixed(4)}, ${d.lon.toFixed(4)}</span>` : 'location not set'}</div></div>
+        ${d.lat != null ? `<a class="btn btn-ghost" style="height:32px;font-size:12px;text-decoration:none;white-space:nowrap;flex:none" target="_blank" rel="noopener" href="https://www.openstreetmap.org/?mlat=${d.lat}&mlon=${d.lon}#map=16/${d.lat}/${d.lon}">Open map ↗</a>` : ''}
+      </div>
+    </section>
+    <section class="dsec">
+      <h3>Paperwork · ${items.length}</h3>
+      <ul class="items" style="list-style:none;margin:0;padding:0">${items.map(({ k, r, rec }) => `<li class="docli" data-rec="${rec.id}" tabindex="0" role="button"><div><span class="mono" style="font-size:12px">${esc(r[0])}</span> · ${esc(r[2])}<small>${rec.files.length ? '📎 ' + rec.files.length + ' · ' : ''}${k.replace(/s$/, '')}${typeof r[3] === 'number' ? ' · ' + moneyFull(r[3]) + ' · due ' + r[4] : ' · ' + r[3]}</small></div>${stateChip(esc(r[5][0]), r[5][1])}</li>`).join('') || '<li style="color:var(--ink-3)">No documents yet.</li>'}</ul>
+    </section>
+    <section class="dsec" style="border-bottom:0">
+      <h3>Crews on site · Oct 19–30</h3>
+      <ul class="items" style="list-style:none;margin:0;padding:0">${crews.map(({ s, t }) => `<li><div><strong style="font-weight:600">${s.name}</strong><small>${s.trade} · ${t.what}</small></div><span class="num" style="font-size:12px;color:var(--ink-2);text-align:right">Oct ${DAYS[t.s].split(' ')[1]}–${DAYS[t.e].split(' ')[1]}<br>${t.crew} crew</span></li>`).join('') || '<li style="color:var(--ink-3)">No crews scheduled.</li>'}</ul>
+    </section>`;
+  showDrawer(trigger);
+}
+function showDrawer(trigger) {
+  lastTrigger = trigger || null;
+  drawer.scrollTop = 0;
+  drawer.classList.add('open'); scrim.classList.add('open');
+  drawer.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden';
+  setTimeout(() => $('.x', drawer).focus({ preventScroll: true }), 50);
+}
+const dots = n => `<span class="dots" aria-label="${n} of 5">${[1, 2, 3, 4, 5].map(i => `<i class="${i <= n ? 'on' : ''}"></i>`).join('')}</span>`;
+function openSubDrawer(name, trigger) {
+  const s = subs.find(x => x.name === name), d = subInfo[name], st = subStatus(name);
+  const crewNow = s.tasks.filter(t => t.s <= TODAY && t.e >= TODAY).reduce((a, t) => a + t.crew, 0);
+  const total = d.contracts.reduce((a, c) => a + c.value, 0), billed = d.contracts.reduce((a, c) => a + c.billed, 0);
+  const avg = (d.rating.reduce((a, b) => a + b, 0) / 3).toFixed(1);
+  const initials = name.split(' ').map(w => w[0]).join('').slice(0, 2);
+  drawer.innerHTML = `
+    <button class="x" type="button" aria-label="Close details"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    <header class="subhead">
+      <div class="hazard" style="margin-bottom:var(--s5);width:120px"></div>
+      <div class="flex items-center gap-4">
+        <div class="avatar" style="width:56px;height:56px;font-size:18px;background:var(--brand);color:#fff;border:0">${initials}</div>
+        <div style="line-height:1.3">
+          <div class="mono" style="font-size:11px;letter-spacing:.08em;opacity:.65">SUBCONTRACTOR · ${s.trade.toUpperCase()}</div>
+          <h2 id="dTitle" class="display" style="font-size:38px;font-weight:800;letter-spacing:-0.03em;margin:4px 0 0">${name}</h2>
+        </div>
+      </div>
+      <div class="flex flex-wrap gap-2" style="margin-top:var(--s4)">${stateChip(...st)}<span class="chip">CCB #${d.ccb}</span><span class="chip">${d.union}</span></div>
+      <dl class="substats">
+        <div><dt>On site today</dt><dd>${crewNow || '—'}${crewNow ? ' crew' : ''}</dd></div>
+        <div><dt>Active jobs</dt><dd>${d.contracts.length}</dd></div>
+        <div><dt>Contract value</dt><dd>${money(total)}</dd></div>
+        <div><dt>Rating</dt><dd>${avg} / 5</dd></div>
+      </dl>
+    </header>
+    <section class="dsec">
+      <h3>Schedule · Oct 19–30</h3>
+      <div class="mini">
+        <div class="mini-days">${DAYS.map((x, i) => `<span class="${i === TODAY ? 'cur' : ''}">${x.split(' ')[0][0]}<b>${x.split(' ')[1]}</b></span>`).join('')}</div>
+        ${s.tasks.map(t => `<div class="mini-lane"><span class="mini-bar" style="--c:${P[t.p].c};left:${t.s * 10}%;width:calc(${(t.e - t.s + 1) * 10}% - 3px)">${t.p}</span></div>`).join('')}
+        <span class="mini-today" style="left:calc(${(TODAY + .5) * 10}% - 1px)"></span>
+      </div>
+      <ul class="items" style="list-style:none;margin:var(--s3) 0 0;padding:0">${s.tasks.map(t => `<li><div><span class="tag"><i style="background:${P[t.p].c}"></i>${t.p}</span> ${t.what}<small>${P[t.p].name} · ${details[t.p].address}</small></div><span class="num" style="font-size:12px;color:var(--ink-2);text-align:right;white-space:nowrap">Oct ${DAYS[t.s].split(' ')[1]}–${DAYS[t.e].split(' ')[1]}<br>${t.crew} crew</span></li>`).join('')}</ul>
+    </section>
+    <section class="dsec">
+      <h3>Contacts</h3>
+      <div class="contacts">${d.contacts.map((c, i) => contactCard(c, i, name + ' · Ironline schedule')).join('')}</div>
+    </section>
+    <section class="dsec">
+      <h3>Subcontracts</h3>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Project</th><th class="r">Value</th><th class="r">Billed</th><th style="min-width:90px">% billed</th><th class="r">Retainage</th><th class="r">COs</th></tr></thead>
+        <tbody>${d.contracts.map(c => `<tr>
+          <td><span class="tag"><i style="background:${P[c.p].c}"></i>${c.p}</span></td>
+          <td class="r num">${money(c.value)}</td><td class="r num">${money(c.billed)}</td>
+          <td><div class="meter" style="height:6px"><span style="width:${Math.round(c.billed / c.value * 100)}%;background:${P[c.p].c};transform:none"></span></div><span class="num" style="font-size:11px;color:var(--ink-3)">${Math.round(c.billed / c.value * 100)}%</span></td>
+          <td class="r num">${money(c.billed * RETAINAGE)}</td><td class="r num">${c.cos || '—'}</td></tr>`).join('')}
+        </tbody></table></div>
+      <div style="margin-top:var(--s2);font-size:12px;color:var(--ink-3)">Total ${moneyFull(total)} · billed ${moneyFull(billed)} · ${RETAINAGE * 100}% retainage held</div>
+    </section>
+    <section class="dsec">
+      <h3>Insurance &amp; compliance</h3>
+      <ul class="items" style="list-style:none;margin:0;padding:0">${d.compliance.map(c => `<li><div>${c[0]}</div>${stateChip(c[1], c[2])}</li>`).join('')}</ul>
+    </section>
+    <section class="dsec">
+      <h3>Company</h3>
+      <dl class="facts">
+        <div><dt>Office</dt><dd>${d.address}</dd></div>
+        <div><dt>Oregon CCB license</dt><dd>#${d.ccb} · active</dd></div>
+        <div><dt>Working with Ironline since</dt><dd>${d.since}</dd></div>
+        <div><dt>Employees</dt><dd>${d.staff}</dd></div>
+        <div><dt>Safety EMR</dt><dd>${d.emr.toFixed(2)} ${d.emr > 1 ? '<span style="color:var(--ink-3);font-weight:400">· above 1.0</span>' : ''}</dd></div>
+        <div><dt>Labor</dt><dd>${d.union}</dd></div>
+      </dl>
+    </section>
+    <section class="dsec" style="border-bottom:0">
+      <h3>Performance</h3>
+      <ul class="items" style="list-style:none;margin:0;padding:0">${['Schedule', 'Quality', 'Safety'].map((k, i) => `<li><div>${k}</div>${dots(d.rating[i])}</li>`).join('')}</ul>
+    </section>`;
+  showDrawer(trigger);
+}
+function closeDrawer() {
+  if (previewUrl) { URL.revokeObjectURL(previewUrl); previewUrl = null; }
+  docRec = null;
+  drawer.classList.remove('open'); scrim.classList.remove('open');
+  drawer.setAttribute('aria-hidden', 'true'); document.body.style.overflow = '';
+  lastTrigger?.focus({ preventScroll: true });
+}
+scrim.addEventListener('click', closeDrawer);
+drawer.addEventListener('click', e => {
+  if (e.target.closest('.x')) closeDrawer();
+  const cp = e.target.closest('[data-copy]');
+  if (cp) {
+    navigator.clipboard?.writeText(cp.dataset.copy).catch(() => {});
+    cp.classList.add('done'); cp.setAttribute('title', 'Copied');
+    setTimeout(() => { cp.classList.remove('done'); cp.setAttribute('title', 'Copy contact'); }, 1400);
+  }
+});
+document.addEventListener('keydown', e => {
+  if (!drawer.classList.contains('open')) return;
+  if (e.key === 'Escape') closeDrawer();
+  if (e.key === 'Tab') { // keep focus inside the dialog
+    const f = [...drawer.querySelectorAll('button, a[href], iframe')]; const first = f[0], last = f[f.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  }
+});
+$('#filter').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  filter = b.dataset.f;
+  $('#filter').querySelectorAll('button').forEach(x => x.setAttribute('aria-selected', x === b));
+  renderProjects(); renderBva();
+});
+
+/* ---------- Budget vs actual ---------- */
+const maxScale = Math.max(...projects.map(p => Math.max(p.budget, p.forecast)));
+function renderBva() {
+  const list = projects.filter(p => filter === 'all' || (filter === 'risk' ? p.status !== 'on' : p.pct >= 90));
+  const pct = v => (v / maxScale * 100).toFixed(2) + '%';
+  $('#bva').innerHTML = list.map(p => {
+    const overW = p.forecast > p.budget ? `<span class="bva-over" style="left:${pct(p.budget)};width:${pct(p.forecast - p.budget)}"></span>` : '';
+    const v = p.forecast - p.budget;
+    return `<div class="bva-row" tabindex="0" data-id="${p.id}" role="button" aria-label="${p.name}: budget ${money(p.budget)}, cost to date ${money(p.spent)}, forecast ${money(p.forecast)}">
+      <span class="tag" style="justify-self:start"><i style="background:${p.c}"></i>${p.id}</span>
+      <div class="bva-track">
+        <span class="bva-budget" style="width:${pct(p.budget)}"></span>
+        ${overW}
+        <span class="bva-clip"><span class="bar-fill" style="width:${pct(p.spent)};background:${p.c}"></span></span>
+        <span class="bva-fc" style="left:calc(${pct(p.forecast)} - 1px)"></span>
+      </div>
+      <span class="num r" style="text-align:right;font-size:13px;font-weight:${v > 0 ? 600 : 400};color:${v > 0 ? 'var(--ink)' : 'var(--ink-2)'}">${v > 0 ? '+' : v < 0 ? '−' : ''}${money(Math.abs(v))}</span>
+    </div>`;
+  }).join('') + `<div class="flex justify-between mono" style="font-size:11px;color:var(--ink-3);margin-left:104px;margin-right:96px;padding-top:6px;border-top:1px solid var(--hair)"><span>$0</span><span>$5M</span><span>$10M</span><span>$15M</span></div>
+  <p style="font-size:12px;color:var(--ink-3);margin:var(--s2) 0 0">Right column shows forecast variance against budget. Bar colors match project tags.</p>`;
+  // scale ticks to actual positions
+  const ticks = $('#bva').querySelector('.flex.justify-between');
+  ticks.style.justifyContent = 'flex-start'; ticks.style.position = 'relative'; ticks.style.height = '22px';
+  [...ticks.children].forEach((s, i) => { s.style.position = 'absolute'; s.style.left = (i * 5e6 / maxScale * 100) + '%'; s.style.transform = i ? 'translateX(-50%)' : 'none'; });
+}
+$('#bva').addEventListener('click', e => { const r = e.target.closest('.bva-row'); if (r) select(r.dataset.id); });
+$('#bva').addEventListener('keydown', e => { const r = e.target.closest('.bva-row'); if (r && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); select(r.dataset.id); } });
+
+/* ---------- Cost codes, all projects ---------- */
+function renderCostCodes() {
+  const rows = portfolioCodes(projects), maxB = Math.max(...rows.map(r => r.budget)), t = ccTotals(rows);
+  $('#ccRows').innerHTML = rows.map(r => `
+    <tr data-tip="${r.name} · all projects|Budget|${moneyFull(r.budget)}|Cost to date|${moneyFull(r.spent)} (${Math.round(r.spent / r.budget * 100)}%)|Forecast variance|${r.variance ? (r.variance > 0 ? '+' : '−') + moneyFull(Math.abs(r.variance)) : '—'}">
+      <td style="font-size:13px">${r.name}</td>
+      <td><div class="meter" style="height:10px;width:${(r.budget / maxB * 100).toFixed(1)}%;min-width:24px"><span style="width:${Math.min(100, r.spent / r.budget * 100).toFixed(1)}%;background:var(--ink-2)"></span></div></td>
+      <td class="r num">${money(r.budget)}</td>
+      <td class="r num" style="${r.variance > 0 ? 'font-weight:600' : 'color:var(--ink-2)'}">${signed(r.variance)}</td>
+    </tr>`).join('');
+  $('#ccFoot').innerHTML = `<tr><td style="font-weight:600;border-top:1px solid var(--ink-3)">Total · ${projects.length} projects</td><td style="border-top:1px solid var(--ink-3);font-size:12px;color:var(--ink-3)">${Math.round(t.spent / t.budget * 100)}% spent</td><td class="r num" style="font-weight:600;border-top:1px solid var(--ink-3)">${money(t.budget)}</td><td class="r num" style="font-weight:600;border-top:1px solid var(--ink-3)">${signed(t.variance)}</td></tr>`;
+}
+
+/* ---------- Subcontractor schedule ---------- */
+const DAYS = ['Mon 19', 'Tue 20', 'Wed 21', 'Thu 22', 'Fri 23', 'Mon 26', 'Tue 27', 'Wed 28', 'Thu 29', 'Fri 30'];
+const TODAY = 1;
+const subs = [
+  { name: 'Keystone Concrete', trade: 'Concrete', tasks: [{ p: 'P-230', s: 0, e: 4, what: 'Spread footings, grid A–F', crew: 9 }, { p: 'P-226', s: 5, e: 9, what: 'Slab-on-grade prep', crew: 6 }] },
+  { name: 'Apex Steel Erectors', trade: 'Structural steel', tasks: [{ p: 'P-221', s: 0, e: 7, what: 'Roof framing, gym wing', crew: 7 }] },
+  { name: 'TrueLine Framing', trade: 'Rough carpentry', tasks: [{ p: 'P-219', s: 0, e: 9, what: 'Buildings C & D framing', crew: 12 }] },
+  { name: 'Summit Electric', trade: 'Electrical', tasks: [{ p: 'P-214', s: 0, e: 6, what: 'Level 3–4 branch circuits', crew: 8 }, { p: 'P-208', s: 7, e: 8, what: 'Final device trim', crew: 2 }] },
+  { name: 'Bluewater Plumbing', trade: 'Plumbing', tasks: [{ p: 'P-214', s: 0, e: 3, what: 'Above-ceiling corrections', crew: 4 }, { p: 'P-219', s: 5, e: 9, what: 'Rough-in, Bldg B', crew: 5 }] },
+  { name: 'Coastal Mechanical', trade: 'HVAC', tasks: [{ p: 'P-208', s: 0, e: 1, what: 'Test & balance', crew: 2 }, { p: 'P-214', s: 4, e: 9, what: 'VAV install, Level 4', crew: 6 }] },
+  { name: 'Granite Roofing', trade: 'Roofing', tasks: [{ p: 'P-221', s: 3, e: 6, what: 'TPO membrane (weather-dependent)', crew: 5 }] },
+  { name: 'Precision Drywall', trade: 'Drywall', tasks: [{ p: 'P-214', s: 2, e: 9, what: 'Hang & tape, Levels 2–3', crew: 10 }] },
+  { name: 'Ridge Earthworks', trade: 'Sitework', tasks: [{ p: 'P-226', s: 0, e: 3, what: 'Storm utilities & sub-base', crew: 5 }, { p: 'P-230', s: 7, e: 9, what: 'Truck court grading', crew: 4 }] },
+];
+/* ---------- Subcontractor details (mockup: fictional firms, 555 numbers, example.com) ---------- */
+const subInfo = {
+  'Keystone Concrete': { ccb: '204118', address: '7420 N Columbia Blvd, Portland, OR 97217', since: 2014, staff: 64, emr: 0.78, union: 'Union · Cement Masons Local 555', rating: [5, 4, 5],
+    contacts: [{ name: 'Luis Ortega', role: 'Field superintendent', tag: 'Foreman', phone: '(503) 555-0211', mobile: '(503) 555-0212', email: 'lortega@keystoneconcrete.example.com' },
+      { name: 'Erin Walsh', role: 'Project manager', tag: 'Office', phone: '(503) 555-0214', email: 'ewalsh@keystoneconcrete.example.com' },
+      { name: 'Sam Patel', role: 'Accounts receivable', tag: 'Billing', phone: '(503) 555-0215', email: 'ar@keystoneconcrete.example.com' }],
+    contracts: [{ p: 'P-230', value: 2140000, billed: 610000, cos: 1 }, { p: 'P-226', value: 486000, billed: 0, cos: 0 }],
+    compliance: [['General liability COI', 'Valid to Jun 30, 2027', 'good'], ["Workers' comp", 'Valid to Jan 1, 2027', 'good'], ['Performance bond', 'On file · P-230', 'good'], ['W-9', 'On file', 'good'], ['Lien waiver · Sep pay app', 'Missing — holds KC-1189', 'warn']] },
+  'Apex Steel Erectors': { ccb: '187552', address: '3300 NW Yeon Ave, Portland, OR 97210', since: 2017, staff: 41, emr: 0.85, union: 'Union · Ironworkers Local 555', rating: [4, 5, 4],
+    contacts: [{ name: 'Ray Kowalski', role: 'Erection foreman', tag: 'Foreman', phone: '(503) 555-0221', mobile: '(503) 555-0222', email: 'ray@apexsteel.example.com' },
+      { name: 'Mia Torres', role: 'Project manager', tag: 'Office', phone: '(503) 555-0224', email: 'mtorres@apexsteel.example.com' },
+      { name: 'Ruth Abernathy', role: 'Billing & lien waivers', tag: 'Billing', phone: '(503) 555-0225', email: 'billing@apexsteel.example.com' }],
+    contracts: [{ p: 'P-221', value: 1380000, billed: 905000, cos: 1 }],
+    compliance: [['General liability COI', 'Valid to Apr 15, 2027', 'good'], ["Workers' comp", 'Valid to Apr 15, 2027', 'good'], ['Performance bond', 'On file · P-221', 'good'], ['W-9', 'On file', 'good'], ['Lien waiver · Sep pay app', 'Received Oct 6', 'good']] },
+  'TrueLine Framing': { ccb: '211940', address: '15900 SE 82nd Dr, Clackamas, OR 97015', since: 2019, staff: 58, emr: 0.92, union: 'Open shop', rating: [4, 4, 4],
+    contacts: [{ name: 'Jake Morrison', role: 'Lead framer', tag: 'Foreman', phone: '(503) 555-0231', mobile: '(971) 555-0232', email: 'jake@truelineframing.example.com' },
+      { name: 'Kara Nguyen', role: 'Estimator / PM', tag: 'Office', phone: '(503) 555-0234', email: 'kara@truelineframing.example.com' },
+      { name: 'Carmen Ibarra', role: 'Office manager · invoicing', tag: 'Billing', phone: '(503) 555-0235', email: 'invoices@truelineframing.example.com' }],
+    contracts: [{ p: 'P-219', value: 1720000, billed: 742000, cos: 0 }],
+    compliance: [['General liability COI', 'Valid to Feb 28, 2027', 'good'], ["Workers' comp", 'Valid to Feb 28, 2027', 'good'], ['Performance bond', 'Not required (< $2M)', 'neutral'], ['W-9', 'On file', 'good'], ['Lien waiver · Sep pay app', 'Received Oct 3', 'good']] },
+  'Summit Electric': { ccb: '163027', address: '2525 SE 11th Ave, Portland, OR 97202', since: 2011, staff: 112, emr: 0.71, union: 'Union · IBEW Local 555', rating: [5, 5, 5],
+    contacts: [{ name: 'Andre Williams', role: 'General foreman', tag: 'Foreman', phone: '(503) 555-0241', mobile: '(503) 555-0242', email: 'awilliams@summitelectric.example.com' },
+      { name: 'Beth Larkin', role: 'Senior project manager', tag: 'Office', phone: '(503) 555-0244', email: 'blarkin@summitelectric.example.com' },
+      { name: 'Nora Feld', role: 'Accounts receivable', tag: 'Billing', phone: '(503) 555-0245', email: 'ar@summitelectric.example.com' }],
+    contracts: [{ p: 'P-214', value: 2460000, billed: 1690000, cos: 2 }, { p: 'P-208', value: 612000, billed: 588000, cos: 0 }],
+    compliance: [['General liability COI', 'Valid to Aug 31, 2027', 'good'], ["Workers' comp", 'Valid to Aug 31, 2027', 'good'], ['Performance bond', 'On file · P-214', 'good'], ['W-9', 'On file', 'good'], ['Lien waiver · Sep pay app', 'Received Oct 2', 'good']] },
+  'Bluewater Plumbing': { ccb: '198764', address: '880 NE 122nd Ave, Portland, OR 97230', since: 2016, staff: 37, emr: 0.88, union: 'Union · UA Local 555', rating: [3, 4, 4],
+    contacts: [{ name: 'Chris Dunn', role: 'Plumbing foreman', tag: 'Foreman', phone: '(503) 555-0251', mobile: '(503) 555-0252', email: 'cdunn@bluewaterplumbing.example.com' },
+      { name: 'Ivy Chen', role: 'Project manager', tag: 'Office', phone: '(503) 555-0254', email: 'ichen@bluewaterplumbing.example.com' },
+      { name: 'Jill Sorensen', role: 'Office manager · billing', tag: 'Billing', phone: '(503) 555-0255', email: 'billing@bluewaterplumbing.example.com' }],
+    contracts: [{ p: 'P-214', value: 1185000, billed: 860000, cos: 1 }, { p: 'P-219', value: 940000, billed: 212000, cos: 0 }],
+    compliance: [['General liability COI', 'Valid to May 31, 2027', 'good'], ["Workers' comp", 'Valid to May 31, 2027', 'good'], ['Performance bond', 'On file · P-214', 'good'], ['W-9', 'On file', 'good'], ['Lien waiver · Sep pay app', 'Received Oct 9', 'good']] },
+  'Coastal Mechanical': { ccb: '176305', address: '6100 SW Macadam Ave, Portland, OR 97239', since: 2013, staff: 86, emr: 0.81, union: 'Union · Sheet Metal Local 555', rating: [4, 5, 4],
+    contacts: [{ name: 'Pete Sandoval', role: 'HVAC foreman', tag: 'Foreman', phone: '(503) 555-0261', mobile: '(503) 555-0262', email: 'psandoval@coastalmech.example.com' },
+      { name: 'Grace Kim', role: 'Project manager', tag: 'Office', phone: '(503) 555-0264', email: 'gkim@coastalmech.example.com' },
+      { name: 'Marty Fisk', role: 'Accounting', tag: 'Billing', phone: '(503) 555-0265', email: 'ar@coastalmech.example.com' }],
+    contracts: [{ p: 'P-214', value: 2890000, billed: 1730000, cos: 1 }, { p: 'P-208', value: 704000, billed: 676000, cos: 0 }],
+    compliance: [['General liability COI', 'Valid to Dec 31, 2026', 'good'], ["Workers' comp", 'Valid to Dec 31, 2026', 'good'], ['Performance bond', 'On file · P-214', 'good'], ['W-9', 'On file', 'good'], ['Lien waiver · Sep pay app', 'Received Oct 5', 'good']] },
+  'Granite Roofing': { ccb: '222581', address: '4410 SE International Way, Milwaukie, OR 97222', since: 2021, staff: 29, emr: 1.04, union: 'Open shop', rating: [3, 4, 3],
+    contacts: [{ name: 'Tony Brooks', role: 'Roofing foreman', tag: 'Foreman', phone: '(503) 555-0271', mobile: '(971) 555-0272', email: 'tony@graniteroofing.example.com' },
+      { name: 'Melissa Grant', role: 'Owner / PM', tag: 'Office', phone: '(503) 555-0274', email: 'melissa@graniteroofing.example.com' },
+      { name: 'Deb Brooks', role: 'Office · billing', tag: 'Billing', phone: '(503) 555-0275', email: 'office@graniteroofing.example.com' }],
+    contracts: [{ p: 'P-221', value: 528000, billed: 96000, cos: 0 }],
+    compliance: [['General liability COI', 'Expires Oct 31, 2026', 'serious'], ["Workers' comp", 'Valid to Mar 1, 2027', 'good'], ['Performance bond', 'Not required (< $2M)', 'neutral'], ['W-9', 'On file', 'good'], ['Safety plan · fall protection', 'Re-submit requested', 'warn']] },
+  'Precision Drywall': { ccb: '190233', address: '11200 SW Allen Blvd, Beaverton, OR 97005', since: 2015, staff: 73, emr: 0.83, union: 'Union · Carpenters Local 555', rating: [4, 4, 5],
+    contacts: [{ name: 'Danny Ruiz', role: 'Drywall foreman', tag: 'Foreman', phone: '(503) 555-0281', mobile: '(503) 555-0282', email: 'druiz@precisiondrywall.example.com' },
+      { name: 'Olivia Hart', role: 'Project manager', tag: 'Office', phone: '(503) 555-0284', email: 'ohart@precisiondrywall.example.com' },
+      { name: 'Yusuf Haddad', role: 'Accounts receivable', tag: 'Billing', phone: '(503) 555-0285', email: 'ar@precisiondrywall.example.com' }],
+    contracts: [{ p: 'P-214', value: 1340000, billed: 402000, cos: 1 }],
+    compliance: [['General liability COI', 'Valid to Jul 31, 2027', 'good'], ["Workers' comp", 'Valid to Jul 31, 2027', 'good'], ['Performance bond', 'Not required (< $2M)', 'neutral'], ['W-9', 'On file', 'good'], ['Lien waiver · Sep pay app', 'Received Oct 7', 'good']] },
+  'Ridge Earthworks': { ccb: '181470', address: '24500 SE Stark St, Gresham, OR 97030', since: 2012, staff: 52, emr: 0.9, union: 'Union · Operating Engineers Local 555', rating: [5, 4, 4],
+    contacts: [{ name: 'Wes Holloway', role: 'Grade foreman', tag: 'Foreman', phone: '(503) 555-0291', mobile: '(503) 555-0292', email: 'wes@ridgeearthworks.example.com' },
+      { name: 'Tara Lindgren', role: 'Project manager', tag: 'Office', phone: '(503) 555-0294', email: 'tara@ridgeearthworks.example.com' },
+      { name: 'Penny Lund', role: 'Accounting', tag: 'Billing', phone: '(503) 555-0295', email: 'ar@ridgeearthworks.example.com' }],
+    contracts: [{ p: 'P-226', value: 612000, billed: 188000, cos: 0 }, { p: 'P-230', value: 1960000, billed: 1240000, cos: 1 }],
+    compliance: [['General liability COI', 'Valid to Sep 30, 2027', 'good'], ["Workers' comp", 'Valid to Sep 30, 2027', 'good'], ['Performance bond', 'On file · P-230', 'good'], ['W-9', 'On file', 'good'], ['Lien waiver · Sep pay app', 'Received Oct 4', 'good']] },
+};
+const RETAINAGE = 0.05;
+const subStatus = n => { const w = subInfo[n].compliance.map(c => c[2]); return w.includes('serious') ? ['Compliance issue', 'serious'] : w.includes('warn') ? ['Action needed', 'warn'] : ['Compliant', 'good']; };
+function renderSchedule() {
+  const used = [...new Set(subs.flatMap(s => s.tasks.map(t => t.p)))];
+  $('#schedLegend').innerHTML = projects.filter(p => used.includes(p.id)).map(p => `<span><i class="sw" style="background:${p.c}"></i>${p.id}</span>`).join('');
+  let html = `<div class="hd" style="padding-left:0">Subcontractor</div>` +
+    DAYS.map((d, i) => { const [w, n] = d.split(' '); return `<div class="hd ${i === TODAY ? 'today' : ''} ${i === 5 ? 'wk' : ''}">${w}<b>Oct ${n}</b></div>`; }).join('');
+  subs.forEach(s => {
+    const crew = s.tasks.reduce((a, t) => Math.max(a, t.crew), 0);
+    const st = subStatus(s.name);
+    html += `<button class="sub" type="button" data-sub="${s.name}" aria-haspopup="dialog"><strong>${s.name}</strong><small>${s.trade} · up to ${crew} crew</small>${st[1] !== 'good' ? `<span class="flag"><i style="background:var(--${st[1]})"></i>${st[0]}</span>` : ''}</button><div class="lane">` +
+      s.tasks.map(t => {
+        const p = P[t.p], left = t.s * 10, width = (t.e - t.s + 1) * 10;
+        return `<button class="task" style="--c:${p.c};left:${left}%;width:calc(${width}% - 4px)" data-p="${t.p}" data-sub="${s.name}"
+          data-tip="${s.name} → ${t.p}|Scope|${t.what}|Dates|Oct ${DAYS[t.s].split(' ')[1]} – Oct ${DAYS[t.e].split(' ')[1]}|Crew|${t.crew} workers|Project|${p.name}">
+          <span class="pad">${t.p}</span><span style="color:var(--ink-2)">· ${t.crew} crew</span><span style="color:var(--ink-3);font-family:'IBM Plex Sans'">${width >= 40 ? ' — ' + t.what : ''}</span></button>`;
+      }).join('') + `</div>`;
+  });
+  html += `<div class="today-line" style="left:calc(180px + (100% - 180px) * ${(TODAY + .5) / 10} - 1px)"></div>`;
+  $('#sched').innerHTML = html;
+  highlightSchedule();
+}
+function highlightSchedule() { document.querySelectorAll('.task').forEach(t => t.classList.toggle('dim', t.dataset.p !== selected)); }
+$('#sched').addEventListener('click', e => {
+  const t = e.target.closest('[data-sub]'); if (!t) return;
+  if (t.dataset.p) select(t.dataset.p);
+  openSubDrawer(t.dataset.sub, t);
+});
+
+/* ---------- Documents ---------- */
+const TABS = [...Object.keys(DOC_TYPES), 'All files'];
+let tab = 'Change orders';
+const projTag = id => P[id] ? `<span class="tag"><i style="background:${P[id].c}"></i>${id}</span>` : `<span class="tag">${esc(id)}</span>`;
+const cellHtml = (v, i) => i === 1 ? projTag(v) : Array.isArray(v) ? stateChip(esc(v[0]), v[1]) : typeof v === 'number' ? moneyFull(v) : esc(v);
+const allFiles = () => records.flatMap(r => r.files.map(f => ({ r, f })));
+const fileKind = f => /pdf/.test(f.type) || /\.pdf$/i.test(f.name) ? 'pdf' : /^image\//.test(f.type) ? 'img' : 'doc';
+const fileIcon = f => { const k = fileKind(f), ext = (f.name.split('.').pop() || '').slice(0, 4).toUpperCase();
+  return `<span class="ficon ficon-${k}" aria-hidden="true">${k === 'img' ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg>' : ext}</span>`; };
+const when = iso => new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+function renderDocs() {
+  $('#docTabs').innerHTML = TABS.map(k => `<button role="tab" aria-selected="${k === tab}" data-t="${k}">${k}<span class="count">${k === 'All files' ? allFiles().length : recordsOf(k).length}</span></button>`).join('');
+  $('#addDocBtn span').textContent = tab === 'All files' ? 'Add document' : `Add ${DOC_TYPES[tab].one.toLowerCase()}`;
+  if (tab === 'All files') {
+    const list = allFiles().sort((a, b) => b.f.addedAt.localeCompare(a.f.addedAt));
+    $('#docTable').innerHTML = `<thead><tr><th>File</th><th>Record</th><th>Project</th><th>Type</th><th>Added</th><th class="r">Size</th></tr></thead><tbody>` +
+      (list.map(({ r, f }) => `<tr class="rowlink" tabindex="0" data-rec="${r.id}" data-file="${f.id}">
+        <td><span class="flex items-center gap-2" style="white-space:normal;min-width:240px">${fileIcon(f)}<strong style="font-weight:500">${esc(f.name)}</strong></span></td>
+        <td class="mono" style="font-size:13px">${esc(r.cells[0])}</td><td>${projTag(r.cells[1])}</td><td>${DOC_TYPES[r.kind].one}</td>
+        <td>${f.demo ? '<span style="color:var(--ink-3)">Imported</span>' : `${when(f.addedAt)} · ${esc(f.addedBy)}`}</td><td class="r num">${fmtSize(f.size)}</td></tr>`).join('')
+       || '<tr><td colspan="6" style="color:var(--ink-3)">No files yet.</td></tr>') + '</tbody>';
+    return;
+  }
+  const t = DOC_TYPES[tab];
+  $('#docTable').innerHTML = `<thead><tr>${t.cols.map((c, i) => `<th class="${t.right.includes(i) ? 'r' : ''}">${c}</th>`).join('')}<th class="r">Files</th></tr></thead><tbody>` +
+    (recordsOf(tab).map(r => `<tr class="rowlink" tabindex="0" data-rec="${r.id}" aria-label="Open ${esc(r.cells[0])}">${r.cells.map((v, i) =>
+      `<td class="${t.right.includes(i) ? 'r num' : ''} ${i === 0 ? 'mono' : ''}" style="${i === 2 ? 'white-space:normal;min-width:220px' : ''}${i === 0 ? 'font-size:13px' : ''}${typeof v === 'number' ? 'font-weight:500' : ''}">${cellHtml(v, i)}</td>`).join('')}
+      <td class="r"><span class="fcount ${r.files.length ? '' : 'none'}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.4 11.1-9.2 9.2a6 6 0 0 1-8.5-8.5l9.2-9.2a4 4 0 0 1 5.7 5.7l-9.2 9.2a2 2 0 0 1-2.8-2.8l8.5-8.5"/></svg>${r.files.length}</span></td></tr>`).join('')
+     || `<tr><td colspan="7" style="color:var(--ink-3)">No ${tab.toLowerCase()} yet.</td></tr>`) + '</tbody>';
+}
+$('#docTabs').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { tab = b.dataset.t; renderDocs(); } });
+$('#docTabs').addEventListener('keydown', e => {
+  if (!['ArrowRight', 'ArrowLeft'].includes(e.key)) return;
+  const i = TABS.indexOf(tab);
+  tab = TABS[(i + (e.key === 'ArrowRight' ? 1 : TABS.length - 1)) % TABS.length]; renderDocs();
+  $(`#docTabs [data-t="${tab}"]`).focus();
+});
+$('#docTable').addEventListener('click', e => { const tr = e.target.closest('tr[data-rec]'); if (tr) openDocDrawer(tr.dataset.rec, tr.dataset.file, tr); });
+$('#docTable').addEventListener('keydown', e => { const tr = e.target.closest('tr[data-rec]'); if (tr && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); openDocDrawer(tr.dataset.rec, tr.dataset.file, tr); } });
+$('#addDocBtn').addEventListener('click', e => openDocForm(tab === 'All files' ? 'Change orders' : tab, e.currentTarget));
+
+/* ---------- Document panel ---------- */
+let docRec = null, previewUrl = null;
+const XBTN = `<button class="x" type="button" aria-label="Close details" style="background:var(--surface-2);color:var(--ink);border-color:var(--hair);z-index:5"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 6l12 12M18 6 6 18"/></svg></button>`;
+const dropzone = (id, multiple = true) => `<div class="upl docdrop" data-drop>
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 16V4m0 0-4 4m4-4 4 4M4 20h16"/></svg>
+    <div><input type="file" id="${id}" class="sr-only" ${multiple ? 'multiple' : ''} data-docfiles accept=".pdf,.png,.jpg,.jpeg,.webp,.heic,.doc,.docx,.xls,.xlsx,.csv,.txt,.dwg,.dxf,.zip">
+      <label for="${id}" class="btn btn-ghost btn-sm upl-btn">Choose files</label> <span style="font-size:13px;color:var(--ink-2)">or drag them here</span>
+      <div class="hint" data-upl-msg style="font-size:11px;color:var(--ink-3);margin-top:4px">PDF, images, Word, Excel, drawings or ZIP · up to 25 MB each</div></div></div>`;
+
+function openDocDrawer(id, fileId, trigger) {
+  const r = records.find(x => x.id === id); if (!r) return;
+  docRec = r;
+  const t = DOC_TYPES[r.kind], p = P[r.cells[1]];
+  const opts = [...(t.statuses.some(x => x[0] === r.cells[5][0]) ? [] : [r.cells[5]]), ...t.statuses];
+  drawer.innerHTML = `${XBTN}
+    <header class="dsec" style="padding-right:72px">
+      <div class="eyebrow">${t.one} · ${esc(r.cells[0])}</div>
+      <h2 id="dTitle" class="display" style="font-size:30px;font-weight:800;letter-spacing:-0.03em;margin:4px 0 0">${esc(r.cells[2])}</h2>
+      <div class="flex flex-wrap gap-2 items-center" style="margin-top:var(--s3)">${stateChip(esc(r.cells[5][0]), r.cells[5][1])}
+        ${p ? `<button class="tag projlink" type="button" data-proj="${p.id}"><i style="background:${p.c}"></i>${p.id} · ${esc(p.name)} →</button>` : ''}</div>
+      <dl class="facts" style="margin-top:var(--s5)">${t.cols.map((c, i) => i === 1 || i === 2 || i === 5 ? '' : `<div><dt>${c}</dt><dd>${cellHtml(r.cells[i], i)}</dd></div>`).join('')}
+        <div><dt>Client</dt><dd>${p ? esc(clientOf(p.id).name) : '—'}</dd></div></dl>
+    </header>
+    <section class="dsec">
+      <h3>Files · ${r.files.length}</h3>
+      ${r.files.length ? `<ul class="files">${r.files.map(f => `<li data-file="${f.id}">
+        <button class="fileline" type="button" data-act="preview" data-file="${f.id}">${fileIcon(f)}<span class="fmeta"><strong>${esc(f.name)}</strong><small>${fmtSize(f.size)} · ${f.demo ? 'Imported with demo data' : `Added ${when(f.addedAt)} by ${esc(f.addedBy)}`}</small></span></button>
+        <span class="acts">
+          <button class="ico" type="button" data-act="open" data-file="${f.id}" aria-label="Open ${esc(f.name)} in a new tab" title="Open in new tab"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></button>
+          <button class="ico" type="button" data-act="download" data-file="${f.id}" aria-label="Download ${esc(f.name)}" title="Download"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v12m0 0-4-4m4 4 4-4M4 20h16"/></svg></button>
+          <button class="ico" type="button" data-act="rm-file" data-file="${f.id}" aria-label="Remove ${esc(f.name)}" title="Remove"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg></button>
+        </span></li>`).join('')}</ul>` : '<p style="font-size:13px;color:var(--ink-3);margin:0 0 var(--s3)">No files attached yet.</p>'}
+      <div style="margin-top:var(--s3)">${dropzone('docUpload')}</div>
+      ${r.files.length ? '<h3 style="margin-top:var(--s5)">Preview</h3><div class="docprev" id="docPrev"></div>' : ''}
+    </section>
+    <section class="dsec">
+      <h3>Status &amp; notes</h3>
+      <div class="fgrid">
+        <div class="field"><label for="docStatus">Status</label><select id="docStatus">${opts.map((o, i) => `<option value="${i}" ${o[0] === r.cells[5][0] ? 'selected' : ''}>${esc(o[0])}</option>`).join('')}</select></div>
+        <div class="field full"><label for="docNotes">Notes</label><textarea id="docNotes" rows="3" placeholder="Add context for the team…">${esc(r.notes)}</textarea></div>
+      </div>
+      <div class="flex items-center gap-3" style="margin-top:var(--s3)"><button class="btn btn-primary btn-sm" type="button" data-act="save-status">Save changes</button><span data-saved style="font-size:12px;color:var(--ink-3)"></span></div>
+    </section>
+    <section class="dsec" style="border-bottom:0">
+      <h3>Activity</h3>
+      <ul class="items" style="list-style:none;margin:0;padding:0">${[...r.activity].reverse().map(a => `<li><div>${esc(a.text)}<small>${esc(a.by)} · ${when(a.at)}</small></div></li>`).join('')}</ul>
+    </section>`;
+  drawer._opts = opts;
+  showDrawer(trigger);
+  if (r.files.length) showPreview(fileId && r.files.some(f => f.id === fileId) ? fileId : r.files[0].id);
+}
+async function showPreview(fid) {
+  const box = $('#docPrev'), f = docRec.files.find(x => x.id === fid); if (!box || !f) return;
+  drawer.querySelectorAll('.files li').forEach(li => li.classList.toggle('on', li.dataset.file === fid));
+  if (previewUrl) URL.revokeObjectURL(previewUrl), previewUrl = null;
+  box.innerHTML = '<span>Loading preview…</span>';
+  const blob = await fileBlob(docRec, f).catch(() => null);
+  if (!blob) { box.innerHTML = '<span>This file is not stored in this browser.</span>'; return; }
+  previewUrl = URL.createObjectURL(blob);
+  const k = fileKind(f);
+  box.innerHTML = k === 'pdf' ? `<iframe title="Preview of ${esc(f.name)}" src="${previewUrl}#toolbar=0&view=FitH"></iframe>`
+    : k === 'img' ? `<img src="${previewUrl}" alt="${esc(f.name)}">`
+    : `<span>No preview for this file type.<br><button class="link" type="button" data-act="download" data-file="${f.id}">Download ${esc(f.name)}</button></span>`;
+}
+function logActivity(r, text) { r.activity.push({ at: new Date().toISOString(), by: CURRENT_USER, text }); }
+async function addFiles(r, list, msgEl) {
+  const ok = [], skipped = [];
+  for (const file of list) {
+    if (file.size > 25 * 1024 * 1024) { skipped.push(file.name); continue; }
+    const id = newId('F-');
+    try { await fileDB.put(id, file); } catch { skipped.push(file.name); continue; }
+    r.files.push({ id, name: file.name, size: file.size, type: file.type || 'application/octet-stream', addedAt: new Date().toISOString(), addedBy: CURRENT_USER });
+    ok.push(id); logActivity(r, `Uploaded ${file.name}`);
+  }
+  if (msgEl && skipped.length) msgEl.textContent = `Skipped ${skipped.join(', ')} (over 25 MB or could not be stored).`;
+  return ok;
+}
+
+drawer.addEventListener('click', async e => {
+  const b = e.target.closest('button, [data-rec]'); if (!b || !drawer.contains(b)) return;
+  if (b.matches('[data-rec]') && !b.closest('#docTable')) return openDocDrawer(b.dataset.rec);
+  if (b.dataset.proj) { select(b.dataset.proj); return openDrawer(b.dataset.proj); }
+  const act = b.dataset.act; if (!act || !docRec) return;
+  const f = docRec.files.find(x => x.id === b.dataset.file);
+  if (act === 'preview') return showPreview(f.id);
+  if (act === 'open') { const w = window.open('', '_blank'); const blob = await fileBlob(docRec, f); if (w && blob) w.location.href = URL.createObjectURL(blob); return; }
+  if (act === 'download') { const blob = await fileBlob(docRec, f); if (!blob) return; const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = f.name; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000); return; }
+  if (act === 'rm-file') {
+    if (!confirm(`Remove ${f.name} from ${docRec.cells[0]}?`)) return;
+    docRec.files = docRec.files.filter(x => x !== f); if (!f.demo) fileDB.del(f.id).catch(() => {});
+    logActivity(docRec, `Removed ${f.name}`); saveStore(); renderDocs(); return openDocDrawer(docRec.id);
+  }
+  if (act === 'save-status') {
+    const next = drawer._opts[+$('#docStatus').value], notes = $('#docNotes').value.trim();
+    if (next[0] !== docRec.cells[5][0]) { logActivity(docRec, `Status changed from ${docRec.cells[5][0]} to ${next[0]}`); docRec.cells[5] = next; }
+    if (notes !== docRec.notes) { logActivity(docRec, notes ? 'Notes updated' : 'Notes cleared'); docRec.notes = notes; }
+    saveStore(); renderDocs(); renderKpis(); openDocDrawer(docRec.id); drawer.scrollTop = drawer.scrollHeight;
+    drawer.querySelector('[data-saved]').textContent = 'Saved';
+  }
+});
+drawer.addEventListener('keydown', e => { const li = e.target.closest('.docli'); if (li && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); openDocDrawer(li.dataset.rec); } });
+// uploads into an open record
+drawer.addEventListener('change', async e => {
+  if (!e.target.matches('#docUpload') || !docRec || !e.target.files.length) return;
+  const msg = drawer.querySelector('[data-upl-msg]'); msg.textContent = 'Uploading…';
+  const added = await addFiles(docRec, [...e.target.files], msg);
+  if (added.length) { saveStore(); renderDocs(); openDocDrawer(docRec.id, added[0]); }
+});
+drawer.addEventListener('dragover', e => { const z = e.target.closest('[data-drop]'); if (z) { e.preventDefault(); z.classList.add('over'); } });
+drawer.addEventListener('dragleave', e => { const z = e.target.closest('[data-drop]'); if (z && !z.contains(e.relatedTarget)) z.classList.remove('over'); });
+drawer.addEventListener('drop', async e => {
+  const z = e.target.closest('[data-drop]'); if (!z) return;
+  e.preventDefault(); z.classList.remove('over');
+  const list = [...e.dataTransfer.files]; if (!list.length) return;
+  if (drawer.querySelector('#docForm')) return stageFiles(list);
+  if (!docRec) return;
+  const added = await addFiles(docRec, list, z.querySelector('[data-upl-msg]'));
+  if (added.length) { saveStore(); renderDocs(); openDocDrawer(docRec.id, added[0]); }
+});
+
+/* ---------- Add document form ---------- */
+let staged = [];
+const fmtDate = (iso, style) => { if (!iso) return '—'; const [y, m, d] = iso.split('-').map(Number), dt = new Date(y, m - 1, d);
+  return style === 'date-mdy' ? dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+    : style === 'date-wmd' ? dt.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })
+    : dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }); };
+const fmtTime = v => { if (!v) return '—'; const [h, m] = v.split(':').map(Number); return `${(h % 12) || 12}:${String(m).padStart(2, '0')} ${h < 12 ? 'AM' : 'PM'}`; };
+function openDocForm(kind, trigger) {
+  docRec = null; staged = [];
+  renderDocForm(kind);
+  showDrawer(trigger);
+}
+function renderDocForm(kind) {
+  const t = DOC_TYPES[kind], req = [0, 1, 2, 5];
+  const input = (c, i) => {
+    const id = `df-${i}`, lab = `<label for="${id}">${c}${req.includes(i) ? ' <span class="req">*</span>' : ''}</label>`, f = t.field[i];
+    const ctl = f === 'project' ? `<select id="${id}">${projects.map(p => `<option value="${p.id}" ${p.id === selected ? 'selected' : ''}>${p.id} · ${esc(p.name)}</option>`).join('')}</select>`
+      : f === 'status' ? `<select id="${id}">${t.statuses.map((s, j) => `<option value="${j}">${esc(s[0])}</option>`).join('')}</select>`
+      : f === 'money' ? `<input id="${id}" inputmode="decimal" placeholder="0">`
+      : f.startsWith('date') ? `<input id="${id}" type="date" ${req.includes(i) ? 'required' : ''}>`
+      : f === 'time' ? `<input id="${id}" type="time">`
+      : `<input id="${id}" ${req.includes(i) ? 'required' : ''} placeholder="${i === 0 ? { 'Change orders': 'CO-214-019', Permits: 'BLD-26-06000', Invoices: 'Pay App #10' }[kind] || '' : ''}">`;
+    return `<div class="field ${i === 2 ? 'full' : ''}">${lab}${ctl}<span class="err">${f === 'money' ? 'Enter a dollar amount' : 'Required'}</span></div>`;
+  };
+  drawer.innerHTML = `<form class="form" id="docForm" novalidate>${XBTN}
+    <div class="form-head">
+      <div class="eyebrow">New document</div>
+      <h2 id="dTitle" class="display" style="font-size:30px;font-weight:800;letter-spacing:-0.03em;margin:4px 0 0">Add ${t.one.toLowerCase()}</h2>
+    </div>
+    <div class="form-body">
+      <section class="form-sec"><div class="fgrid">
+        <div class="field full"><label for="df-kind">Document type</label><select id="df-kind">${Object.keys(DOC_TYPES).map(k => `<option ${k === kind ? 'selected' : ''} value="${k}">${DOC_TYPES[k].one}</option>`).join('')}</select></div>
+        ${t.cols.map(input).join('')}
+        <div class="field full"><label for="df-notes">Notes</label><textarea id="df-notes" rows="3"></textarea></div>
+      </div></section>
+      <section class="form-sec"><h3><span>Files · <span data-staged-count>${staged.length}</span></span></h3>
+        <ul class="files" data-staged>${stagedList()}</ul>
+        ${dropzone('docFormFiles')}
+      </section>
+    </div>
+    <div class="form-foot"><span style="flex:1"></span><button class="btn btn-ghost" type="button" data-cancel>Cancel</button><button class="btn btn-primary" type="submit">Add ${t.one.toLowerCase()}</button></div>
+  </form>`;
+  drawer._kind = kind;
+}
+const stagedList = () => staged.map((f, i) => `<li><span class="fileline">${fileIcon(f)}<span class="fmeta"><strong>${esc(f.name)}</strong><small>${fmtSize(f.size)} · ready to upload</small></span></span>
+  <span class="acts"><button class="ico" type="button" data-unstage="${i}" aria-label="Remove ${esc(f.name)}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg></button></span></li>`).join('');
+function stageFiles(list) {
+  const big = list.filter(f => f.size > 25 * 1024 * 1024);
+  staged.push(...list.filter(f => f.size <= 25 * 1024 * 1024));
+  drawer.querySelector('[data-staged]').innerHTML = stagedList();
+  drawer.querySelector('[data-staged-count]').textContent = staged.length;
+  drawer.querySelector('[data-upl-msg]').textContent = big.length ? `Skipped ${big.map(f => f.name).join(', ')} (over 25 MB).` : 'PDF, images, Word, Excel, drawings or ZIP · up to 25 MB each';
+}
+drawer.addEventListener('change', e => {
+  if (e.target.matches('#docFormFiles')) { stageFiles([...e.target.files]); e.target.value = ''; }
+  if (e.target.matches('#df-kind')) { const keep = staged; renderDocForm(e.target.value); staged = keep; drawer.querySelector('[data-staged]').innerHTML = stagedList(); drawer.querySelector('[data-staged-count]').textContent = staged.length; }
+});
+drawer.addEventListener('click', e => {
+  const u = e.target.closest('[data-unstage]'); if (u) { staged.splice(+u.dataset.unstage, 1); drawer.querySelector('[data-staged]').innerHTML = stagedList(); drawer.querySelector('[data-staged-count]').textContent = staged.length; }
+  if (e.target.closest('[data-cancel]')) closeDrawer();
+});
+drawer.addEventListener('submit', async e => {
+  if (e.target.id !== 'docForm') return; e.preventDefault();
+  const kind = drawer._kind, t = DOC_TYPES[kind];
+  let bad = null;
+  drawer.querySelectorAll('#docForm input, #docForm select').forEach(el => el.setAttribute('aria-invalid', 'false'));
+  drawer.querySelectorAll('#docForm [required]').forEach(el => { if (!el.value.trim()) { el.setAttribute('aria-invalid', 'true'); bad = bad || el; } });
+  t.field.forEach((f, i) => { const el = $(`#df-${i}`); if (f === 'money' && el.value.trim() && isNaN(parseFloat(el.value.replace(/[$,]/g, '')))) { el.setAttribute('aria-invalid', 'true'); bad = bad || el; } });
+  if (bad) { bad.focus(); return; }
+  const cells = t.field.map((f, i) => { const v = $(`#df-${i}`).value.trim();
+    return f === 'money' ? (parseFloat(v.replace(/[$,]/g, '')) || 0) : f === 'status' ? t.statuses[+v] : f.startsWith('date') ? fmtDate(v, f) : f === 'time' ? fmtTime(v) : (v || '—'); });
+  const r = { id: 'R-' + String(Math.max(0, ...records.map(x => +x.id.slice(2) || 0)) + 1).padStart(3, '0'), kind, cells, files: [], notes: $('#df-notes').value.trim(), activity: [] };
+  logActivity(r, `${t.one} created`);
+  records.push(r);
+  await addFiles(r, staged);
+  if (!saveStore()) { alert('Could not save — browser storage is full or blocked.'); return; }
+  staged = []; tab = kind; renderDocs(); renderKpis();
+  openDocDrawer(r.id);
+});
+
+/* ---------- Selection ---------- */
+function select(id) {
+  selected = id;
+  document.querySelectorAll('#projCards .pcard').forEach(c => c.setAttribute('aria-pressed', c.dataset.id === id));
+  highlightSchedule();
+}
+
+/* ---------- Tooltip ---------- */
+const tip = $('#tip');
+function showTip(el, x, y) {
+  let html;
+  if (el.classList.contains('bva-row')) {
+    const p = P[el.dataset.id], v = p.forecast - p.budget;
+    html = `<b>${p.id} · ${p.name}</b><div class="row"><span>Budget</span><span class="num">${moneyFull(p.budget)}</span></div><div class="row"><span>Cost to date</span><span class="num">${moneyFull(p.spent)} (${Math.round(p.spent / p.budget * 100)}%)</span></div><div class="row"><span>Forecast</span><span class="num">${moneyFull(p.forecast)}</span></div><div class="row"><span>Variance</span><span class="num">${v >= 0 ? '+' : '−'}${moneyFull(Math.abs(v))}</span></div>`;
+  } else {
+    const parts = el.dataset.tip.split('|');
+    html = `<b>${parts[0]}</b>` + Array.from({ length: (parts.length - 1) / 2 }, (_, i) => `<div class="row"><span>${parts[1 + i * 2]}</span><span>${parts[2 + i * 2]}</span></div>`).join('');
+  }
+  tip.innerHTML = html; tip.classList.add('on');
+  const r = tip.getBoundingClientRect();
+  tip.style.left = Math.min(window.innerWidth - r.width - 12, Math.max(12, x + 14)) + 'px';
+  tip.style.top = (y + 16 + r.height > window.innerHeight ? y - r.height - 12 : y + 16) + 'px';
+}
+document.addEventListener('pointermove', e => {
+  const el = e.target.closest('[data-tip], .bva-row');
+  el ? showTip(el, e.clientX, e.clientY) : tip.classList.remove('on');
+});
+document.addEventListener('focusin', e => {
+  const el = e.target.closest('[data-tip], .bva-row');
+  if (el) { const r = el.getBoundingClientRect(); showTip(el, r.left + r.width / 2, r.bottom); } else tip.classList.remove('on');
+});
+document.addEventListener('focusout', () => tip.classList.remove('on'));
+
+/* ---------- Init + staggered reveal ---------- */
+renderKpis(); renderProjects(); renderBva(); renderCostCodes(); renderSchedule(); renderDocs();
+const linked = new URLSearchParams(location.search).get('project');
+if (linked && P[linked]) { select(linked); openDrawer(linked); }
+const io = new IntersectionObserver(entries => entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); } }), { threshold: .08 });
+document.querySelectorAll('.reveal').forEach((el, i) => { el.style.transitionDelay = Math.min(i, 8) * 60 + 'ms'; io.observe(el); });
+</script>
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ironline Cost Codes</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<link rel="stylesheet" href="assets/theme-glass.css">
+<script>/* pick the visual style before first paint: ?style=glass|office, else the saved choice, else glass */
+  (() => { let s = new URLSearchParams(location.search).get('style'); try { s = s || localStorage.getItem('ironline-style'); } catch {} document.documentElement.dataset.style = s === 'office' ? 'office' : 'glass'; })();
+</script>
+</head>
+<body>
+<div class="shell">
+  <aside class="side">
+    <div>
+      <div class="flex items-center gap-3">
+        <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true">
+          <rect width="34" height="34" rx="8" fill="var(--brand)"/>
+          <path d="M8 25V12l9-5 9 5v13" fill="none" stroke="#fff" stroke-width="2.5" stroke-linejoin="round"/>
+          <path d="M13 25v-7h8v7" fill="none" stroke="#fff" stroke-width="2.5"/>
+        </svg>
+        <div>
+          <div class="display" style="font-size:20px;font-weight:800">Ironline</div>
+          <div class="mono" style="font-size:10px;letter-spacing:.12em;opacity:.6">BUILDERS · SITE OFFICE</div>
+        </div>
+      </div>
+      <div class="hazard mt-5 hidden lg:block"></div>
+    </div>
+    <nav class="nav" aria-label="Primary">
+      <a href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>Overview</a>
+      <a href="index.html#projects"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6"/></svg>Projects</a>
+      <a href="clients.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5a6.5 6.5 0 0 1 3.5 5.5"/></svg>Clients</a>
+      <a href="index.html#budget"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Budgets</a>
+      <a href="cost-codes.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Cost codes</a>
+      <a href="index.html#schedule"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Crews &amp; schedule</a>
+      <a href="index.html#docs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg>Documents</a>
+    </nav>
+    <div class="hidden lg:flex mt-auto items-center gap-3 pt-4" style="border-top:1px solid color-mix(in oklab, var(--side-text) 12%, transparent)">
+      <img src="https://placehold.co/64x64/2a2722/f6f3ec?text=MR" width="32" height="32" alt="" class="rounded-full">
+      <div style="line-height:1.3"><div style="font-weight:600;font-size:13px">Maria Reyes</div><div style="font-size:12px;opacity:.6">Operations Director</div></div>
+    </div>
+    <button class="btn btn-ghost lg:hidden" aria-label="Open menu" style="background:transparent;color:var(--side-text);border-color:color-mix(in oklab, var(--side-text) 20%, transparent)">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </aside>
+
+  <main>
+    <header class="reveal flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+      <div>
+        <a class="link mono" href="index.html" style="font-size:12px;text-decoration:none;color:var(--ink-2)">← Operations overview</a>
+        <div class="eyebrow" style="margin-top:var(--s3)">Financials · Week 43 · Oct 20, 2026</div>
+        <h1 class="display" style="font-size:clamp(36px,5vw,56px);font-weight:800;letter-spacing:-0.03em;margin:4px 0 0">Cost code breakdown</h1>
+      </div>
+      <div class="flex flex-wrap items-center gap-3">
+        <div class="seg" role="tablist" aria-label="Filter projects" id="ccFilter">
+          <button role="tab" aria-selected="true" data-f="all">All projects</button>
+          <button role="tab" aria-selected="false" data-f="over">Over budget</button>
+          <button role="tab" aria-selected="false" data-f="risk">At risk</button>
+        </div>
+        <button class="btn btn-ghost" type="button">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0-4-4m4 4 4-4M4 21h16"/></svg>Export CSV
+        </button>
+      </div>
+    </header>
+
+    <section class="kpis" id="ccKpis" aria-label="Cost totals" style="grid-template-columns:repeat(2,minmax(0,1fr))"></section>
+
+    <section class="card reveal" id="portfolio">
+      <div class="card-h">
+        <div><div class="eyebrow">All projects</div><h2 class="display">Portfolio by cost code</h2></div>
+        <div class="legend"><span><i class="sw" style="background:var(--track)"></i>Budget</span><span><i class="sw" style="background:var(--good)"></i>Cost to date</span></div>
+      </div>
+      <div class="card-b"><div class="tbl-wrap"><table id="portTable"></table></div></div>
+    </section>
+
+    <section class="card reveal" id="matrix">
+      <div class="card-h">
+        <div><div class="eyebrow">Where the overruns are</div><h2 class="display">Forecast variance by project</h2></div>
+        <div class="legend"><span><i class="sw" style="background:var(--critical)"></i>Over budget</span><span><i class="sw" style="background:var(--good)"></i>Under budget</span></div>
+      </div>
+      <div class="card-b"><div class="tbl-wrap"><table id="matrixTable"></table></div></div>
+    </section>
+
+    <nav class="jump reveal" id="jump" aria-label="Jump to project"></nav>
+
+    <div id="projSections" class="flex flex-col gap-4 md:gap-6"></div>
+
+    <footer class="mono" style="font-size:11px;color:var(--ink-3);padding:var(--s2) 0 var(--s4)">Data as of Oct 20, 2026 07:30 · Ironline Builders, Inc. · Mockup data</footer>
+  </main>
+</div>
+
+<script src="assets/seed.js"></script>
+<script src="assets/shared.js"></script>
+<script>
+let ccFilter = 'all';
+const inFilter = p => ccFilter === 'all' || (ccFilter === 'over' ? p.forecast > p.budget : p.status !== 'on');
+const pctBar = (spent, budget, color) => `<div class="flex items-center gap-2"><div class="meter flex-1" style="height:8px;min-width:56px"><span style="width:${Math.min(100, spent / budget * 100).toFixed(1)}%;background:${color};transform:none"></span></div><span class="num" style="font-size:12px;color:var(--ink-2);width:34px;text-align:right">${Math.round(spent / budget * 100)}%</span></div>`;
+const varCell = v => `<td class="r num" style="${v > 0 ? 'font-weight:600' : 'color:var(--ink-2)'}">${v > 0 ? '<i class="vdot" style="background:var(--critical)"></i>' : v < 0 ? '<i class="vdot" style="background:var(--good)"></i>' : ''}${signed(v)}</td>`;
+const HEAD = `<thead><tr><th>Cost code</th><th class="r">Budget</th><th class="r">Cost to date</th><th style="min-width:110px">% spent</th><th class="r">Forecast</th><th class="r">Variance</th><th class="r">Remaining</th></tr></thead>`;
+const row = (r, color, label = r.name) => `<tr><td>${label}</td><td class="r num">${moneyFull(r.budget)}</td><td class="r num">${moneyFull(r.spent)}</td><td>${pctBar(r.spent, r.budget, color)}</td><td class="r num">${moneyFull(r.budget + r.variance)}</td>${varCell(r.variance)}<td class="r num">${moneyFull(r.budget + r.variance - r.spent)}</td></tr>`;
+const foot = (t, label, color = 'var(--ink)') => `<tfoot><tr class="tot"><td>${label}</td><td class="r num">${moneyFull(t.budget)}</td><td class="r num">${moneyFull(t.spent)}</td><td>${pctBar(t.spent, t.budget, color)}</td><td class="r num">${moneyFull(t.budget + t.variance)}</td>${varCell(t.variance)}<td class="r num">${moneyFull(t.budget + t.variance - t.spent)}</td></tr></tfoot>`;
+
+function render() {
+  const list = projects.filter(inFilter);
+  const rows = portfolioCodes(list), t = ccTotals(rows);
+  const overCodes = list.reduce((a, p) => a + costCodes(p).filter(r => r.variance > 0).length, 0);
+  $('#ccKpis').innerHTML = [
+    ['Budget', money(t.budget), `${list.length} project${list.length === 1 ? '' : 's'}`],
+    ['Cost to date', money(t.spent), `${Math.round(t.spent / t.budget * 100)}% of budget`],
+    ['Forecast variance', signed(t.variance), t.variance > 0 ? 'Projected over budget' : 'Projected under budget'],
+    ['Codes over budget', overCodes, 'across selected projects'],
+  ].map(([l, v, sub]) => `<div class="card kpi"><span class="label">${l}</span><span class="value num">${v}</span><span class="sub">${sub}</span></div>`).join('');
+
+  $('#portTable').innerHTML = HEAD + '<tbody>' + rows.map(r => row(r, 'var(--good)')).join('') + '</tbody>' + foot(t, `Total · ${list.length} projects`, 'var(--good)');
+
+  $('#matrixTable').innerHTML = `<thead><tr><th>Cost code</th>${list.map(p => `<th class="r"><a class="tag" href="#${p.id}" style="text-decoration:none;color:var(--ink)"><i style="background:${p.c}"></i>${p.id}</a></th>`).join('')}<th class="r">Total</th></tr></thead><tbody>` +
+    CODES.map(cd => { const vals = list.map(p => costCodes(p).find(r => r.k === cd.k).variance); const sum = vals.reduce((a, b) => a + b, 0);
+      return `<tr><td>${cd.name}</td>${vals.map(varCell).join('')}${varCell(sum)}</tr>`; }).join('') +
+    `</tbody><tfoot><tr class="tot"><td>Project total</td>${list.map(p => varCell(p.forecast - p.budget)).join('')}${varCell(list.reduce((a, p) => a + p.forecast - p.budget, 0))}</tr></tfoot>`;
+
+  $('#jump').innerHTML = `<span class="eyebrow" style="margin-right:var(--s2)">Jump to</span>` + list.map(p => `<a class="tag jumpto" href="#${p.id}"><i style="background:${p.c}"></i>${p.id} · ${p.name}</a>`).join('');
+
+  $('#projSections').innerHTML = list.map(p => {
+    const r = costCodes(p), pt = ccTotals(r), d = details[p.id];
+    return `<section class="card ccproj" id="${p.id}" aria-labelledby="h-${p.id}">
+      <div class="ccproj-grid">
+        <aside class="ccproj-side">
+          <div class="photo" style="border-radius:10px;aspect-ratio:16/10"><img src="${d.photo || PLACEHOLDER_PHOTO}" alt="Site photo, ${p.name}"><span class="tint" style="background:${p.c}"></span><span class="fade bg-gradient-to-t from-black/60 to-transparent"></span>
+            <div class="over"><span class="tag"><i style="background:${p.c}"></i>${p.id}</span>${chip(p.status)}</div></div>
+          <h2 id="h-${p.id}" class="display" style="font-size:26px;font-weight:800;margin:var(--s4) 0 2px">${p.name}</h2>
+          <div style="font-size:12px;color:var(--ink-3);line-height:1.5">${p.type} · ${d.city}<br>${p.phase} · ${p.pct}% complete · PM ${p.pm}</div>
+          <dl class="pstats" style="margin-top:var(--s4);grid-template-columns:repeat(2,minmax(0,1fr));row-gap:var(--s3)">
+            <div><dt>Budget</dt><dd>${money(p.budget)}</dd></div>
+            <div><dt>Cost to date</dt><dd>${money(p.spent)}</dd></div>
+            <div><dt>Forecast</dt><dd>${money(p.forecast)}</dd></div>
+            <div><dt>Variance</dt><dd>${signed(p.forecast - p.budget)}</dd></div>
+          </dl>
+        </aside>
+        <div class="ccproj-main"><div class="tbl-wrap"><table>${HEAD}<tbody>${r.map(x => row(x, p.c)).join('')}</tbody>${foot(pt, 'Project total')}</table></div>
+          <p style="font-size:12px;color:var(--ink-3);margin:var(--s3) 0 0">Forecast = budget + projected variance. Remaining = forecast − cost to date.</p></div>
+      </div>
+    </section>`;
+  }).join('') || '<div class="card card-b" style="color:var(--ink-3)">No projects match this filter.</div>';
+}
+$('#ccFilter').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  ccFilter = b.dataset.f;
+  $('#ccFilter').querySelectorAll('button').forEach(x => x.setAttribute('aria-selected', x === b));
+  render();
+});
+render();
+if (location.hash) document.querySelector(location.hash)?.scrollIntoView();
+const io = new IntersectionObserver(entries => entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); } }), { threshold: .05 });
+document.querySelectorAll('.reveal').forEach((el, i) => { el.style.transitionDelay = Math.min(i, 6) * 60 + 'ms'; io.observe(el); });
+</script>
+</body>
+</html>
